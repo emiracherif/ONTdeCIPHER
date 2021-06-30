@@ -5,7 +5,7 @@ deCIPHER integrates 11 bioinformatics tools, including Seqkit, ARTIC bioinformat
 
 <img src="images/pipeline_fig.png"
      alt="deCIPHER"
-     style="float: left; margin-right: 10px;" />
+     style="float: left; margin-right: 50px;" />
 
 ## Installation
 You can install all dependencies using this command line:
