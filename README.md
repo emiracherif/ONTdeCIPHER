@@ -3,13 +3,13 @@
 deCIPHER is a  scalable, modular and traceable snakemake pipeline for amplicon-based nanopore sequencing for tracking SARS-CoV-2 variants.
 deCIPHER integrates 11 bioinformatics tools, including Seqkit, ARTIC bioinformatics tool, PycoQC, Minimap2, Medaka, Nanopolish, Pangolin (with the model database pangoLEARN), Deeptools (PlotCoverage, BamCoverage), MAFFT, RaxML and snpEff. It is a standalone pipeline compatible with Ubuntu distributions and macOS, implemented in Python3, including two easy-to-use configuration files. With a single command line and the raw sequencing data as input, the user can preprocess the data, obtain the statistics on sequencing quality, depth and coverage. Then, reconstruct the consensus genome sequences, identify the variants and their potential associated effects for each viral isolate, and, finally, perform the multi-sequence alignments and phylogenetic analyses.
 
+<p align="center">
 <img src="images/pipeline_fig.png"
-     align="center"
      width="50%"
      height="50%" 
      alt="deCIPHER"
      style="float: left; margin-right: 10px;" />
-
+</p>
 
 ## Installation
 You can install all dependencies using this command line:
