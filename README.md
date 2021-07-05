@@ -127,8 +127,8 @@ Andrew Rambaut et al, July 15 2020, A dynamic nomenclature proposal for SARS-CoV
 
 ## Project contributors
 
-* Fatou Seck Thiam (BCD/ISEM/IRD), Mohammad Salma (IGMM), Rodolphe E. Gozlan (ISEM/IRD), Marine Combe (ISEM/IRD) and Emira Cherif (ISEM/IRD).
-* Written by Fatou Seck Thiam, Mohammad Salma and Emira Cherif.
+* Fatou Seck Thiam (BCD/ISEM/IRD), Marine Combe (ISEM/IRD),Georgina Rivera-Ingraham (ISEM/IRD), Fabienne Justy (ISEM/UM), Damien Breugnot (ISEM/IRD), Mohammad Salma (IGMM), Marie-ka Tilak (ISEM), Jean-Claude Doudou (IRD Cayenne), Rodolphe E. Gozlan (ISEM/IRD) and Emira Cherif (ISEM/IRD).
+* **Written by Fatou Seck Thiam, Mohammad Salma and Emira Cherif.**
 
 
 ## Contact 
