@@ -101,7 +101,9 @@ After running deCIPHER steps your working directory will the following files and
 	├── lineage_report.csv
 	└── report.html
 ### References
-Wei Shen, Shuai Le, Yan Li, Fuquan Hu, October 5, 2016, SeqKit: A Cross-Platform and Ultrafast Toolkit for FASTA/Q File Manipulation (https://doi.org/10.1371/journal.pone.0163962), (https://bioinf.shenwei.me/seqkit/)/
+Wei Shen, Shuai Le, Yan Li, Fuquan Hu, October 5, 2016, SeqKit: A Cross-Platform and Ultrafast Toolkit for FASTA/Q File Manipulation (https://doi.org/10.1371/journal.pone.0163962), (https://bioinf.shenwei.me/seqkit/)  
+
+
 Nick Loman, Andrew Rambaut, Jannuary 22, 2020, nCoV-2019 novel coronavirus bioinformatics environment setup (https://artic.network/ncov-2019/ncov2019-it-setup.html)
 Fidel Ramírez, Friederike Dündar, Sarah Diehl, Björn A. Grüning, Thomas Manke, May 05, 2014, deepTools: a flexible platform for exploring deep-sequencing data, https://deeptools.readthedocs.io/en/develop/content/installation.html
 Pablo Cingolani et al, April 01, 2012, A program for annotating and predicting the effects of single nucleotide polymorphisms, SnpEff (http://pcingola.github.io/SnpEff/se_introduction/)
