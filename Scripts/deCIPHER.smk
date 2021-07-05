@@ -101,7 +101,7 @@ rule artic_minion_medaka:
 
 	shell:
 		"cd Step3_artic_medaka_result/ && artic minion --medaka --medaka-model r941_min_fast_g303 "
-		"--normalise 200 --threads 4 --strict --scheme-directory ../Scripts/artic-ncov2019/primer_schemes "
+		"--normalise 200 --threads 4 --strict --scheme-directory ../Scripts/artic-ncov2019_data/primer_schemes "
 		"--read-file ../{input.artic_guppyplex_fastq} --fast5-directory ../{input.fast5_Dir} "
 		"--sequencing-summary ../"+str(myParamDict['input_sequence_summary'])+" nCoV-2019/V3 {wildcards.sample}"
 
@@ -116,7 +116,7 @@ rule artic_minion_nanopolish:
 	
 
 	shell:
-		"cd Step4_artic_nanopolish_result/ && artic minion --normalise 200 --threads 4 --strict --scheme-directory ../Scripts/artic-ncov2019/primer_schemes "
+		"cd Step4_artic_nanopolish_result/ && artic minion --normalise 200 --threads 4 --strict --scheme-directory ../Scripts/artic-ncov2019_data/primer_schemes "
 		"--read-file ../{input.artic_guppyplex_fastq} --fast5-directory ../{input.fast5_Dir} "
 		"--sequencing-summary ../"+str(myParamDict['input_sequence_summary'])+" nCoV-2019/V3 {wildcards.sample}"
 
