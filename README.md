@@ -100,7 +100,7 @@ After running deCIPHER steps your working directory will the following files and
 	├── global_lineage_information.csv
 	├── lineage_report.csv
 	└── report.html
-### References
+## References
 Adrien Leger, Tommaso Leonardi, February 28, 2019, pycoQC, interactive quality control for Oxford Nanopore Sequencing (https://tleonardi.github.io/pycoQC/)
 
 Wei Shen, Shuai Le, Yan Li, Fuquan Hu, October 5, 2016, SeqKit: A Cross-Platform and Ultrafast Toolkit for FASTA/Q File Manipulation
@@ -125,7 +125,18 @@ Andrew Rambaut et al, July 15 2020, A dynamic nomenclature proposal for SARS-CoV
 (https://cov-lineages.org/pangolin.html)
 
 
+## Project contributors
 
+* Fatou Seck Thiam (BCD/ISEM/IRD), Mohammad Salma (IGMM), Rodolphe E. Gozlan (ISEM/IRD), Marine Combe (ISEM/IRD) and Emira Cherif (ISEM/IRD).
+* Written by Fatou Seck Thiam, Mohammad Salma and Emira Cherif.
+
+
+## Contact 
+emira.cherif@ird.fr
+
+## License
+Licencied under CeCill-C (http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html) and GPLv3. 
+Intellectual property belongs to IRD and authors.
 
  
 
