@@ -107,18 +107,18 @@ Wei Shen, Shuai Le, Yan Li, Fuquan Hu, October 5, 2016, SeqKit: A Cross-Platform
 Nick Loman, Andrew Rambaut, Jannuary 22, 2020, nCoV-2019 novel coronavirus bioinformatics environment setup 
 (https://artic.network/ncov-2019/ncov2019-it-setup.html)
 
-Fidel Ramírez, Friederike Dündar, Sarah Diehl, Björn A. Grüning, Thomas Manke, May 05, 2014, deepTools: a flexible platform for exploring deep-sequencing data, (https://deeptools.readthedocs.io/en/develop/content/installation.html)
+Fidel Ramírez, Friederike Dündar, Sarah Diehl, Björn A. Grüning, Thomas Manke, May 05, 2014, deepTools: a flexible platform for exploring deep-sequencing data,   (https://deeptools.readthedocs.io/en/develop/content/installation.html)
 
-Pablo Cingolani et al, April 01, 2012, A program for annotating and predicting the effects of single nucleotide polymorphisms, SnpEff 
+Pablo Cingolani et al, April 01, 2012, A program for annotating and predicting the effects of single nucleotide polymorphisms, SnpEff   
 (http://pcingola.github.io/SnpEff/se_introduction/)
 
-Katoh, Rozewicki, Yamada, 2019, MAFFT online service: multiple sequence alignment, interactive sequence choice and visualization
+Katoh, Rozewicki, Yamada, 2019, MAFFT online service: multiple sequence alignment, interactive sequence choice and visualization    
 (https://mafft.cbrc.jp/alignment/software/)
 
 Alexandros Stamatakis, January 21, 2014, RAxML: a tool for phylogenetic analysis and post-analysis of large phylogenies 
-(https://www.metagenomics.wiki/tools/phylogenetic-tree/construction/raxml)
+(https://www.metagenomics.wiki/tools/phylogenetic-tree/construction/raxml)  
 
-Andrew Rambaut et al, July 15 2020, A dynamic nomenclature proposal for SARS-CoV-2 lineages to assist genomic epidemiology 
+Andrew Rambaut et al, July 15 2020, A dynamic nomenclature proposal for SARS-CoV-2 lineages to assist genomic epidemiology   
 (https://cov-lineages.org/pangolin.html)
 
 
