@@ -29,7 +29,7 @@ Before running deCIPHER, you will need first to create a working directory then 
 		│   ├── barcode02
 		├── fast5_pass
 		│   ├── barcode01
-		│   ├── barcode01
+		│   ├── barcode02
 
 ### To run the deCIPHER :
 
@@ -47,7 +47,7 @@ You have to run the master script `run_deCIPHER.py` from working directory by:
 `pycoQC` *"PycoQC computes metrics and generates interactive QC plots for Oxford Nanopore technologies sequencing data"* (https://tleonardi.github.io/pycoQC/)
 `pip_core`  runs deCIPHER core pipeline (artic, seqKit, DeepTools, snpEff)
  `m_r_p` runs mafft, raxmlHPC and Pangolin
-`all` runs `pip_core` & `m_r_p`
+`all` runs `pycoQC` , `pip_core` & `m_r_p`
 
 
 `--params` : a config file containing some parameters to run the pipeline.
