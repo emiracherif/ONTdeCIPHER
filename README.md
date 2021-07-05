@@ -1,7 +1,7 @@
 # deCIPHER
 
 deCIPHER is a  scalable, modular and traceable snakemake pipeline for amplicon-based nanopore sequencing for tracking SARS-CoV-2 variants.
-deCIPHER integrates 11 bioinformatics tools, including Seqkit, ARTIC bioinformatics tool, PycoQC, Minimap2, Medaka, Nanopolish, Pangolin (with the model database pangoLEARN), Deeptools (PlotCoverage, BamCoverage), MAFFT, RaxML and snpEff. It is a standalone pipeline compatible with Ubuntu distributions and macOS, implemented in Python3, including two easy-to-use configuration files. With a single command line and the raw sequencing data as input, the user can preprocess the data, obtain the statistics on sequencing quality, depth and coverage. Then, reconstruct the consensus genome sequences, identify the variants and their potential associated effects for each viral isolate, and, finally, perform the multi-sequence alignments and phylogenetic analyses. 
+deCIPHER integrates 11 bioinformatics tools, including Seqkit, ARTIC bioinformatics tool, PycoQC, Minimap2, Medaka, Nanopolish, Pangolin (with the model database pangoLEARN), Deeptools (PlotCoverage, BamCoverage), MAFFT, RaxML and snpEff. It is a standalone pipeline compatible with Ubuntu distributions and macOS, implemented in Python3, including two easy-to-use configuration files. With a single command line and the raw sequencing data as input, the user can preprocess the data, obtain the statistics on sequencing quality, depth and coverage. Then, reconstruct the consensus genome sequences, identify the variants and their potential associated effects for each viral isolate, and, finally, perform the multi-sequence alignments and phylogenetic analyses.
 
 <p align="center">
 <img src="images/pipeline_fig.png"
@@ -100,3 +100,17 @@ After running deCIPHER steps your working directory will the following files and
 	├── global_lineage_information.csv
 	├── lineage_report.csv
 	└── report.html
+### References
+Wei Shen, Shuai Le, Yan Li, Fuquan Hu, October 5, 2016, SeqKit: A Cross-Platform and Ultrafast Toolkit for FASTA/Q File Manipulation (https://doi.org/10.1371/journal.pone.0163962), (https://bioinf.shenwei.me/seqkit/)
+Nick Loman, Andrew Rambaut, Jannuary 22, 2020, nCoV-2019 novel coronavirus bioinformatics environment setup (https://artic.network/ncov-2019/ncov2019-it-setup.html)
+Fidel Ramírez, Friederike Dündar, Sarah Diehl, Björn A. Grüning, Thomas Manke, May 05, 2014, deepTools: a flexible platform for exploring deep-sequencing data, https://deeptools.readthedocs.io/en/develop/content/installation.html
+Pablo Cingolani et al, April 01, 2012, A program for annotating and predicting the effects of single nucleotide polymorphisms, SnpEff (http://pcingola.github.io/SnpEff/se_introduction/)
+Katoh, Rozewicki, Yamada, 2019, MAFFT online service: multiple sequence alignment, interactive sequence choice and visualization (https://mafft.cbrc.jp/alignment/software/)
+Alexandros Stamatakis, January 21, 2014, RAxML: a tool for phylogenetic analysis and post-analysis of large phylogenies (https://www.metagenomics.wiki/tools/phylogenetic-tree/construction/raxml)
+Andrew Rambaut et al, July 15 2020, A dynamic nomenclature proposal for SARS-CoV-2 lineages to assist genomic epidemiology (https://cov-lineages.org/pangolin.html)
+
+
+
+
+ 
+
