@@ -135,7 +135,8 @@ Andrew Rambaut et al, July 15 2020, A dynamic nomenclature proposal for SARS-CoV
 emira.cherif@ird.fr
 
 ## License
-Licencied under CeCill-C (http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html) and GPLv3. 
+Licencied under CeCill-C (http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html) and GPLv3.                                                  
+
 Intellectual property belongs to IRD and authors.
 
  
