@@ -109,9 +109,10 @@ Wei Shen, Shuai Le, Yan Li, Fuquan Hu, October 5, 2016, SeqKit: A Cross-Platform
 Nick Loman, Andrew Rambaut, Jannuary 22, 2020, nCoV-2019 novel coronavirus bioinformatics environment setup 
 (https://artic.network/ncov-2019/ncov2019-it-setup.html)
 
-Fidel Ramírez, Friederike Dündar, Sarah Diehl, Björn A. Grüning, Thomas Manke, May 05, 2014, deepTools: a flexible platform for exploring deep-sequencing data,  (https://deeptools.readthedocs.io/en/develop/content/installation.html)
+Fidel Ramírez, Friederike Dündar, Sarah Diehl, Björn A. Grüning, Thomas Manke, May 05, 2014, deepTools: a flexible platform for exploring deep-sequencing data
+(https://deeptools.readthedocs.io/en/develop/content/installation.html)
 
-Pablo Cingolani et al, April 01, 2012, A program for annotating and predicting the effects of single nucleotide polymorphisms, SnpEff  
+Pablo Cingolani et al, April 01, 2012, SnpEff: A program for annotating and predicting the effects of single nucleotide polymorphisms  
 (http://pcingola.github.io/SnpEff/se_introduction/)
 
 Katoh, Rozewicki, Yamada, 2019, MAFFT online service: multiple sequence alignment, interactive sequence choice and visualization    
