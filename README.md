@@ -1,10 +1,12 @@
-# deCIPHER
+# ONTdeCIPHER
 
-deCIPHER is a  scalable, modular and traceable snakemake pipeline for amplicon-based nanopore sequencing for tracking SARS-CoV-2 variants.
-deCIPHER integrates 11 bioinformatics tools, including Seqkit, ARTIC bioinformatics tool, PycoQC, Minimap2, Medaka, Nanopolish, Pangolin (with the model database pangoLEARN), Deeptools (PlotCoverage, BamCoverage), MAFFT, RaxML and snpEff. It is a standalone pipeline compatible with Ubuntu distributions and macOS, implemented in Python3, including two easy-to-use configuration files. With a single command line and the raw sequencing data as input, the user can preprocess the data, obtain the statistics on sequencing quality, depth and coverage. Then, reconstruct the consensus genome sequences, identify the variants and their potential associated effects for each viral isolate, and, finally, perform the multi-sequence alignments and phylogenetic analyses.
+ONTdeCIPHER is an amplicon-based Oxford Nanopore Technology (ONT) sequencing pipeline to perform key downstream analyses on raw sequencing data from quality testing to SNPs effect to phylogenetic analysis. 
+ONTdeCIPHER integrates 13 bioinformatics tools, including Seqkit, ARTIC bioinformatics tool, PycoQC, MultiQC, Minimap2, Medaka, Nanopolish, Pangolin (with the model database pangoLEARN), Deeptools (PlotCoverage, BamCoverage), Sniffles, MAFFT, RaxML and snpEff. 
+The users can pre-process their data and obtain the sequencing statistics, reconstruct the consensus genome, identify variants and their effects for each viral isolate, infer lineage, and perform multi-sequence alignments and phylogenetic analyses. 
+Currently, ONTdeCIPHER is mainly used to analyze the genetic diversity of SARS-CoV-2. However, any amplicon-based genome of pathogens can be analyzed if the primers scheme and a reference genome are available. 
 
 <p align="center">
-<img src="images/pipeline_fig.png"
+<img src="images/ONTdeCIPHER_pipelineGit.png"
      width="50%"
      height="50%" 
      alt="deCIPHER"
@@ -12,11 +14,25 @@ deCIPHER integrates 11 bioinformatics tools, including Seqkit, ARTIC bioinformat
 </p>
 
 ## Installation
-You can install all dependencies using this command line:
-### For Linux distributions
-`conda env create --name decipher --file=decipher_linux.yml`
-### For macOS 
-`conda env create --name decipher --file=decipher_macOS.yml`
+### Requirements:
+Python >=3\
+Sankemake\
+Conda
+### 1 Downloading the source:
+```sh
+git clone https://github.com/emiracherif/ONTdeCIPHER
+cd ONTdeCIPHER
+```
+### 2 Installing dependencies:
+
+#### For Linux distributions
+```sh
+conda env create --name decipher --file=Environments/decipher_linux.yml
+```
+#### For macOS 
+```sh
+conda env create --name decipher --file=Environments/decipher_macOS.yml
+```
 
 ## Usage
 Before running deCIPHER, you will need first to create a working directory then put into it all your sequencing data (fastq and fasta files). deCIPHER will output the results in the working directory. 
@@ -36,11 +52,15 @@ Before running deCIPHER, you will need first to create a working directory then 
 You have to run the master script `run_deCIPHER.py` from working directory by:
 1) activating deCIPHER conda environment:
 
-`conda activate decipher`
+```sh
+conda activate decipher
+```
 
 2) running the master script
 
-`python3 path_to_script_directory/run_deCIPHER.py --step pip_core--params config.txt --samples config_samplename.tsv -t 10`
+```sh
+python3 path_to_script_directory/run_deCIPHER.py --step pip_core--params config.txt --samples config_samplename.tsv -t 10
+```
 
 `--step` : can be one of the following values: `pycoQC` , `pip_core` , `m_r_p` . To run all steps you can use : `all` .
 
@@ -100,17 +120,35 @@ After running deCIPHER steps your working directory will the following files and
 	├── global_lineage_information.csv
 	├── lineage_report.csv
 	└── report.html
+
+## Tips
+SnpEff needs a database to perform genomic annotations. There are pre-built databases for thousands of genomes.
+So to know which genomes have a pre-built database run (ONTdeCIPHER environment needs to be activated):
+```sh
+java -jar snpEff.jar databases
+```
+If your genome is absent from the database, you can build your database (see http://pcingola.github.io/SnpEff/se_buildingdb/).
+
 ## References
-Adrien Leger, Tommaso Leonardi, February 28, 2019, pycoQC, interactive quality control for Oxford Nanopore Sequencing (https://tleonardi.github.io/pycoQC/)
+### Pre-processing and quality control
+Adrien Leger, Tommaso Leonardi, February 28, 2019, pycoQC, interactive quality control for Oxford Nanopore Sequencing
+(https://tleonardi.github.io/pycoQC/)
 
 Wei Shen, Shuai Le, Yan Li, Fuquan Hu, October 5, 2016, SeqKit: A Cross-Platform and Ultrafast Toolkit for FASTA/Q File Manipulation
 (https://bioinf.shenwei.me/seqkit/)  
 
+Fidel Ramírez, Friederike Dündar, Sarah Diehl, Björn A. Grüning, Thomas Manke, May 05, 2014, deepTools: a flexible platform for exploring deep-sequencing data
+(https://deeptools.readthedocs.io/en/develop/content/installation.html)
+
+Ewels, P., Magnusson, M., Lundin, S., & Käller, M. (2016). MultiQC: summarize analysis results for multiple tools and samples in a single report
+(https://multiqc.info/)
+
+### Genome reconstruction and genomic analysis
 Nick Loman, Andrew Rambaut, Jannuary 22, 2020, nCoV-2019 novel coronavirus bioinformatics environment setup 
 (https://artic.network/ncov-2019/ncov2019-it-setup.html)
 
-Fidel Ramírez, Friederike Dündar, Sarah Diehl, Björn A. Grüning, Thomas Manke, May 05, 2014, deepTools: a flexible platform for exploring deep-sequencing data
-(https://deeptools.readthedocs.io/en/develop/content/installation.html)
+Sedlazeck, F.J., Rescheneder, P., Smolka, M. et al. Accurate detection of complex structural variations using single-molecule sequencing
+(https://github.com/fritzsedlazeck/Sniffles)
 
 Pablo Cingolani et al, April 01, 2012, SnpEff: A program for annotating and predicting the effects of single nucleotide polymorphisms  
 (http://pcingola.github.io/SnpEff/se_introduction/)
