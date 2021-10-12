@@ -27,15 +27,26 @@ cd ONTdeCIPHER
 
 #### For Linux distributions
 ```sh
-conda env create --name decipher --file=Environments/decipher_linux.yml
+conda env create --name ontdecipher --file=Environments/ontdecipher_linux.yml
 ```
 #### For macOS 
 ```sh
-conda env create --name decipher --file=Environments/decipher_macOS.yml
+conda env create --name ontdecipher --file=Environments/ontdecipher_macOS.yml
+```
+
+to install artic : 
+```sh
+conda activate ontdecipher
+cd fieldbioinformatics && python setup.py install
+```
+
+to install pangolin : 
+```sh
+cd ../Pangolin && bash install_pangolin.sh
 ```
 
 ## Usage
-Before running deCIPHER, you will need first to create a working directory then put into it all your sequencing data (fastq and fasta files). deCIPHER will output the results in the working directory. 
+Before running ONTdeCIPHER, you will need first to create a working directory then put into it all your sequencing data (fastq and fasta files). ONTdeCIPHER will output the results in the working directory. 
 
 ### Structure of the working directory
 
@@ -47,19 +58,19 @@ Before running deCIPHER, you will need first to create a working directory then 
 		│   ├── barcode01
 		│   ├── barcode02
 
-### To run the deCIPHER :
+### To run the ONTdeCIPHER :
 
-You have to run the master script `run_deCIPHER.py` from working directory by:
-1) activating deCIPHER conda environment:
+You have to run the master script `run_ONTdeCIPHER.py` from working directory by:
+1) activating ONTdeCIPHER conda environment:
 
 ```sh
-conda activate decipher
+conda activate ontdecipher
 ```
 
 2) running the master script
 
 ```sh
-python3 path_to_script_directory/run_deCIPHER.py --step pip_core--params config.txt --samples config_samplename.tsv -t 10
+python3 path_to_script_directory/run_ONTdeCIPHER.py --step pip_core--params config.txt --samples config_samplename.tsv -t 10
 ```
 
 `--step` : can be one of the following values: `pycoQC` , `pip_core` , `m_r_p` . To run all steps you can use : `all` .
@@ -98,7 +109,7 @@ python3 path_to_script_directory/run_deCIPHER.py --step pip_core--params config.
 
 ### Pipeline output results
 
-After running deCIPHER steps your working directory will the following files and folders.
+After running ONTdeCIPHER steps your working directory will the following files and folders.
 
 	├── DagFiles
 	├── RAxML_bestTree.name_bootstrap
