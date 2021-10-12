@@ -1,0 +1,8 @@
+biopython
+clint
+pandas
+pysam
+pytest
+pyvcf
+requests
+tqdm

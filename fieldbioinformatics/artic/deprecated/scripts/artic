@@ -1,0 +1,4 @@
+#!/usr/bin/python -E
+
+import artic.pipeline
+artic.pipeline.main()

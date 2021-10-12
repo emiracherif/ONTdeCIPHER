@@ -1,0 +1,31 @@
+# For zika-pipeline repo #
+data/
+build/
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+*~
+#*
+
+# Snakemake generated files #
+.snakemake/
+scripts/illumina/db/*fa.*
+
+*.pyc
+*.bak
+dist/
+*.egg-info/
+
+# test data
+*.index*
+CVR1/
+NRW01/
+SP1/
