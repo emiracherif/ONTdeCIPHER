@@ -16,7 +16,8 @@ Currently, ONTdeCIPHER is mainly used to analyze the genetic diversity of SARS-C
 ## Installation
 ### Requirements:
 Python >=3\
-Conda
+Conda >=3
+
 ### 1. Downloading the source:
 ```sh
 git clone https://github.com/emiracherif/ONTdeCIPHER
