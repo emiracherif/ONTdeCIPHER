@@ -46,13 +46,7 @@ cd ../Pangolin && bash install_pangolin.sh
 
 ## Usage
 Before running ONTdeCIPHER, you will need first to create a working directory then put into it all your sequencing data (fastq and fasta files). ONTdeCIPHER will output the results in the working directory. 
-```sh
-conda env create --name decipher --file=Environments/decipher_linux.yml
-```
-#### For macOS 
-```sh
-conda env create --name decipher --file=Environments/decipher_macOS.yml
-```
+
 
 ### Structure of the working directory
 
@@ -72,21 +66,12 @@ You have to run the master script `run_ONTdeCIPHER.py` from working directory by
 
 ```sh
 conda activate ontdecipher
-=======
-### To run the deCIPHER :
-
-You have to run the master script `run_deCIPHER.py` from working directory by:
-1) activating deCIPHER conda environment:
-
-```sh
-conda activate decipher
->>>>>>> 561f609b84fbef2d0a0170457bf405a99741c6ee
 ```
 
 2) running the master script
 
 ```sh
-python3 path_to_script_directory/run_ONTdeCIPHER.py --step pip_core--params config.txt --samples config_samplename.tsv -t 10
+python3 absulote_path_to_script_directory/run_ONTdeCIPHER.py --step pip_core --params config.txt --samples config_samplename.tsv -t 10
 ```
 
 `--step` : can be one of the following values: `pycoQC` , `pip_core` , `m_r_p` . To run all steps you can use : `all` .
@@ -94,7 +79,7 @@ python3 path_to_script_directory/run_ONTdeCIPHER.py --step pip_core--params conf
 `pycoQC` runs only PycoQC (computes metrics and generates interactive QC plots for Oxford Nanopore technologies sequencing data)
 `pip_core`  runs ONTdeCIPHER core pipeline (artic, seqKit, DeepTools, snpEff)
 `m_r_p` runs mafft, raxmlHPC and Pangolin
-`all` runs `pycoQC` , `pip_core` & `m_r_p`
+`all` runs `pycoQC` (if sequencing_summary.txt file is provided), `pip_core` & `m_r_p`
 
 
 `--params` : a config file containing some parameters to run the pipeline.
