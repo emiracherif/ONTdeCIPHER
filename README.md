@@ -64,9 +64,9 @@ python3 path_to_script_directory/run_deCIPHER.py --step pip_core--params config.
 
 `--step` : can be one of the following values: `pycoQC` , `pip_core` , `m_r_p` . To run all steps you can use : `all` .
 
-`pycoQC` *"PycoQC computes metrics and generates interactive QC plots for Oxford Nanopore technologies sequencing data"* (https://tleonardi.github.io/pycoQC/)
-`pip_core`  runs deCIPHER core pipeline (artic, seqKit, DeepTools, snpEff)
- `m_r_p` runs mafft, raxmlHPC and Pangolin
+`pycoQC` runs only PycoQC (computes metrics and generates interactive QC plots for Oxford Nanopore technologies sequencing data)
+`pip_core`  runs ONTdeCIPHER core pipeline (artic, seqKit, DeepTools, snpEff)
+`m_r_p` runs mafft, raxmlHPC and Pangolin
 `all` runs `pycoQC` , `pip_core` & `m_r_p`
 
 
@@ -121,7 +121,9 @@ After running deCIPHER steps your working directory will the following files and
 	├── lineage_report.csv
 	└── report.html
 
-Data test ONTdeCIPHER and the results you will obtain are available here: https://osf.io/jd2vz/?view_only=6d333ddc5a3045d297d5e3cc59e7e461
+Data test ONTdeCIPHER and the results you will obtain are available here:
+
+https://osf.io/jd2vz/?view_only=6d333ddc5a3045d297d5e3cc59e7e461
 ## Tips
 SnpEff needs a database to perform genomic annotations. There are pre-built databases for thousands of genomes.
 So to know which genomes have a pre-built database run (ONTdeCIPHER environment needs to be activated):
