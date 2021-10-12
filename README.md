@@ -17,12 +17,12 @@ Currently, ONTdeCIPHER is mainly used to analyze the genetic diversity of SARS-C
 ### Requirements:
 Python >=3\
 Conda
-### 1 Downloading the source:
+### 1. Downloading the source:
 ```sh
 git clone https://github.com/emiracherif/ONTdeCIPHER
 cd ONTdeCIPHER
 ```
-### 2 Installing dependencies:
+### 2. Installing dependencies:
 
 #### For Linux distributions
 ```sh
@@ -32,7 +32,7 @@ conda env create --name ontdecipher --file=Environments/ontdecipher_linux.yml
 ```sh
 conda env create --name ontdecipher --file=Environments/ontdecipher_macOS.yml
 ```
-### 4 Installing artic & pangolin:
+### 3. Installing artic & pangolin:
 to install artic : 
 ```sh
 conda activate ontdecipher
