@@ -121,7 +121,7 @@ After running deCIPHER steps your working directory will the following files and
 	├── lineage_report.csv
 	└── report.html
 
-Data test ONTdeCIPHER and the results you will obtain are available here:
+Data to test ONTdeCIPHER and the results you will obtain are available here:
 
 https://osf.io/jd2vz/?view_only=6d333ddc5a3045d297d5e3cc59e7e461
 ## Tips
