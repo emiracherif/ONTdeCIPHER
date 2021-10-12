@@ -27,6 +27,7 @@ cd ONTdeCIPHER
 
 #### For Linux distributions
 ```sh
+<<<<<<< HEAD
 conda env create --name ontdecipher --file=Environments/ontdecipher_linux.yml
 ```
 #### For macOS 
@@ -47,6 +48,17 @@ cd ../Pangolin && bash install_pangolin.sh
 
 ## Usage
 Before running ONTdeCIPHER, you will need first to create a working directory then put into it all your sequencing data (fastq and fasta files). ONTdeCIPHER will output the results in the working directory. 
+=======
+conda env create --name decipher --file=Environments/decipher_linux.yml
+```
+#### For macOS 
+```sh
+conda env create --name decipher --file=Environments/decipher_macOS.yml
+```
+
+## Usage
+Before running deCIPHER, you will need first to create a working directory then put into it all your sequencing data (fastq and fasta files). deCIPHER will output the results in the working directory. 
+>>>>>>> 561f609b84fbef2d0a0170457bf405a99741c6ee
 
 ### Structure of the working directory
 
@@ -58,6 +70,7 @@ Before running ONTdeCIPHER, you will need first to create a working directory th
 		│   ├── barcode01
 		│   ├── barcode02
 
+<<<<<<< HEAD
 ### To run the ONTdeCIPHER :
 
 You have to run the master script `run_ONTdeCIPHER.py` from working directory by:
@@ -65,12 +78,25 @@ You have to run the master script `run_ONTdeCIPHER.py` from working directory by
 
 ```sh
 conda activate ontdecipher
+=======
+### To run the deCIPHER :
+
+You have to run the master script `run_deCIPHER.py` from working directory by:
+1) activating deCIPHER conda environment:
+
+```sh
+conda activate decipher
+>>>>>>> 561f609b84fbef2d0a0170457bf405a99741c6ee
 ```
 
 2) running the master script
 
 ```sh
+<<<<<<< HEAD
 python3 path_to_script_directory/run_ONTdeCIPHER.py --step pip_core--params config.txt --samples config_samplename.tsv -t 10
+=======
+python3 path_to_script_directory/run_deCIPHER.py --step pip_core--params config.txt --samples config_samplename.tsv -t 10
+>>>>>>> 561f609b84fbef2d0a0170457bf405a99741c6ee
 ```
 
 `--step` : can be one of the following values: `pycoQC` , `pip_core` , `m_r_p` . To run all steps you can use : `all` .
@@ -109,7 +135,11 @@ python3 path_to_script_directory/run_ONTdeCIPHER.py --step pip_core--params conf
 
 ### Pipeline output results
 
+<<<<<<< HEAD
 After running ONTdeCIPHER steps your working directory will the following files and folders.
+=======
+After running deCIPHER steps your working directory will the following files and folders.
+>>>>>>> 561f609b84fbef2d0a0170457bf405a99741c6ee
 
 	├── DagFiles
 	├── RAxML_bestTree.name_bootstrap
