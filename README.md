@@ -32,7 +32,7 @@ conda env create --name ontdecipher --file=Environments/ontdecipher_linux.yml
 ```sh
 conda env create --name ontdecipher --file=Environments/ontdecipher_macOS.yml
 ```
-
+### 4 Installing artic & pangolin:
 to install artic : 
 ```sh
 conda activate ontdecipher
