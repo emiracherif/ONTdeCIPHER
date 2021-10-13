@@ -164,6 +164,9 @@ Ewels, P., Magnusson, M., Lundin, S., & Käller, M. (2016). MultiQC: summarize a
 Nick Loman, Andrew Rambaut, Jannuary 22, 2020, nCoV-2019 novel coronavirus bioinformatics environment setup 
 (https://artic.network/ncov-2019/ncov2019-it-setup.html)
 
+Li, H. (2018). Minimap2: pairwise alignment for nucleotide sequences
+(https://github.com/lh3/minimap2)
+
 Sedlazeck, F.J., Rescheneder, P., Smolka, M. et al. 2018.Accurate detection of complex structural variations using single-molecule sequencing
 (https://github.com/fritzsedlazeck/Sniffles)
 
