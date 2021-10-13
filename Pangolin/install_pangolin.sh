@@ -6,7 +6,7 @@ rm -rf pangolin
 git clone --recursive https://github.com/cov-lineages/pangolin.git
 
 
-# Go into Pangolin fold --> creat pangolin env --> install pangolin dependencies
+# Go into Pangolin fold --> create pangolin env --> install pangolin dependencies
 cd pangolin
 conda env create --name pangolin --file=environment.yml
 
