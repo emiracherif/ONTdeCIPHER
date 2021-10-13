@@ -6,7 +6,7 @@ The users can pre-process their data and obtain the sequencing statistics, recon
 Currently, ONTdeCIPHER is mainly used to analyze the genetic diversity of SARS-CoV-2. However, any amplicon-based genome of pathogens can be analyzed if the primers scheme and a reference genome are available. 
 
 <p align="center">
-<img src="images/ONTdeCIPHER_pipelineGit.png"
+<img src="Images/ONTdeCIPHER_pipelineGit.png"
      width="50%"
      height="50%" 
      alt="deCIPHER"
