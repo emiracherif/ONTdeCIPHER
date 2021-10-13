@@ -12,13 +12,25 @@
 #############################################################################################
 #############################################################################################
 
-import os, sys, pwd, argparse 
+import os, sys, pwd, argparse , subprocess, re
 from ete3 import Tree, TreeStyle
 
+def cleanTree(file):
+	
+	with open(file ,'r') as brutTree:
+		cleanTreeFile="clean_tree_"+file
+		cmd="rm -f "+cleanTreeFile
+		subprocess.Popen(cmd, shell=True, executable='/bin/bash')
+		with open(cleanTreeFile, 'a') as outcleanTreeFile:
+			for line in brutTree:
+				line = re.sub("_barcode..\/ARTIC\/medaka", "", line)
+				outcleanTreeFile.write(line)
 
 
 def plot_tree(file, output, format):
-	t=Tree(file)
+	cleanTree(file)
+	cleanTreeFile="clean_tree_"+file
+	t=Tree(cleanTreeFile)
 	ts = TreeStyle()
 	ts.show_leaf_name = True
 	ts.show_branch_support = True
