@@ -217,8 +217,8 @@ def runPipeline(stepf,coref, mySampleDict, myParamDict):
 		print(p.read())
 
 
-		# p = os.popen('source '+str(myParamDict['conda_path'])+'/etc/profile.d/conda.sh && conda activate ete3 && python script.py --file xxxxx')
-		# print(p.read())
+		cmd='source '+str(myParamDict['conda_path'])+'/etc/profile.d/conda.sh && conda activate ete3 && python3 '+pathToSnake+'/plot_tree.py --file RAxML_bestTree.'+str(myParamDict['name'])+' && conda deactivate'
+		subprocess.Popen(cmd, shell=True, executable='/bin/bash')
 
 		cmd='source '+str(myParamDict['conda_path'])+'/etc/profile.d/conda.sh && conda activate pangolin && pangolin Step8_consensus_fasta/all_fasta.fasta --threads '+str(coref)+' && conda deactivate'
 		subprocess.Popen(cmd, shell=True, executable='/bin/bash')
