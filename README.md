@@ -44,7 +44,7 @@ to install pangolin :
 ```sh
 cd ../Pangolin && bash install_pangolin.sh
 ```
-
+This step allows having the last version of pangolin and pangoLEARN.
 ## Usage
 Before running ONTdeCIPHER, you will need first to create a working directory then put into it all your sequencing data (fastq/fastq.gz and fast5 files). ONTdeCIPHER will output the results in the working directory. 
 
@@ -183,7 +183,7 @@ Andrew Rambaut et al, July 15 2020, A dynamic nomenclature proposal for SARS-CoV
 ## Project contributors
 
 * Fatou Seck Thiam (BCD/ISEM/IRD), Marine Combe (ISEM/IRD),Georgina Rivera-Ingraham (ISEM/IRD), Fabienne Justy (ISEM/UM), Damien Breugnot (ISEM/IRD), Mohammad Salma (IGMM), Marie-ka Tilak (ISEM), Jean-Claude Doudou (IRD Cayenne), Rodolphe E. Gozlan (ISEM/IRD) and Emira Cherif (ISEM/IRD).
-* **Written by Fatou Seck Thiam, Mohammad Salma and Emira Cherif.**
+* **Written by Mohammad Salma, Fatou Seck Thiam and Emira Cherif.**
 
 
 ## Contact 
