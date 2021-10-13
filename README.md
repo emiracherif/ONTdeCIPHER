@@ -164,7 +164,7 @@ Ewels, P., Magnusson, M., Lundin, S., & Käller, M. (2016). MultiQC: summarize a
 Nick Loman, Andrew Rambaut, Jannuary 22, 2020, nCoV-2019 novel coronavirus bioinformatics environment setup 
 (https://artic.network/ncov-2019/ncov2019-it-setup.html)
 
-Sedlazeck, F.J., Rescheneder, P., Smolka, M. et al. Accurate detection of complex structural variations using single-molecule sequencing
+Sedlazeck, F.J., Rescheneder, P., Smolka, M. et al. 2018.Accurate detection of complex structural variations using single-molecule sequencing
 (https://github.com/fritzsedlazeck/Sniffles)
 
 Pablo Cingolani et al, April 01, 2012, SnpEff: A program for annotating and predicting the effects of single nucleotide polymorphisms  
@@ -174,7 +174,10 @@ Katoh, Rozewicki, Yamada, 2019, MAFFT online service: multiple sequence alignmen
 (https://mafft.cbrc.jp/alignment/software/)
 
 Alexandros Stamatakis, January 21, 2014, RAxML: a tool for phylogenetic analysis and post-analysis of large phylogenies 
-(https://www.metagenomics.wiki/tools/phylogenetic-tree/construction/raxml)  
+(https://www.metagenomics.wiki/tools/phylogenetic-tree/construction/raxml) 
+
+Huerta-Cepas, J., Serra, F., & Bork, P. 2016. ETE 3: reconstruction, analysis, and visualization of phylogenomic data
+(http://etetoolkit.org/)
 
 Andrew Rambaut et al, July 15 2020, A dynamic nomenclature proposal for SARS-CoV-2 lineages to assist genomic epidemiology 
 (https://cov-lineages.org/pangolin.html)
