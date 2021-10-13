@@ -1,6 +1,6 @@
 # ONTdeCIPHER
 
-ONTdeCIPHER is an amplicon-based Oxford Nanopore Technology (ONT) sequencing pipeline to perform key downstream analyses on raw sequencing data from quality testing to SNPs effect to phylogenetic analysis. 
+ONTdeCIPHER is an Oxford Nanopore Technology (ONT) amplicon-based sequencing pipeline to perform key downstream analyses on raw sequencing data from quality testing to SNPs effect to phylogenetic analysis. 
 ONTdeCIPHER integrates 13 bioinformatics tools, including Seqkit, ARTIC bioinformatics tool, PycoQC, MultiQC, Minimap2, Medaka, Nanopolish, Pangolin (with the model database pangoLEARN), Deeptools (PlotCoverage, BamCoverage), Sniffles, MAFFT, RaxML and snpEff. 
 The users can pre-process their data and obtain the sequencing statistics, reconstruct the consensus genome, identify variants and their effects for each viral isolate, infer lineage, and perform multi-sequence alignments and phylogenetic analyses. 
 Currently, ONTdeCIPHER is mainly used to analyze the genetic diversity of SARS-CoV-2. However, any amplicon-based genome of pathogens can be analyzed if the primers scheme and a reference genome are available. 
@@ -46,7 +46,7 @@ cd ../Pangolin && bash install_pangolin.sh
 ```
 
 ## Usage
-Before running ONTdeCIPHER, you will need first to create a working directory then put into it all your sequencing data (fastq and fasta files). ONTdeCIPHER will output the results in the working directory. 
+Before running ONTdeCIPHER, you will need first to create a working directory then put into it all your sequencing data (fastq/fastq.gz and fast5 files). ONTdeCIPHER will output the results in the working directory. 
 
 
 ### Structure of the working directory
@@ -60,7 +60,7 @@ Before running ONTdeCIPHER, you will need first to create a working directory th
 		│   ├── barcode02
 
 
-### To run the ONTdeCIPHER :
+### To run ONTdeCIPHER :
 
 You have to run the master script `run_ONTdeCIPHER.py` from working directory by:
 1) activating ONTdeCIPHER conda environment:
@@ -111,7 +111,7 @@ python3 absulote_path_to_script_directory/run_ONTdeCIPHER.py --step pip_core --p
 
 ### Pipeline output results
 
-After running ONTdeCIPHER steps your working directory will the following files and folders.
+After running ONTdeCIPHER steps you will hava in your working directory the following files and folders.
 
 
 	├── DagFiles
