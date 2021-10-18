@@ -46,6 +46,12 @@ sequencing_summary=""
 if "input_sequence_summary" in myParamDict.keys():
 	sequencing_summary="--sequencing-summary "+str(myParamDict['input_sequence_summary'])
 
+
+sniffles="sniffles"
+if "sniffles" in myParamDict.keys():
+	sniffles=str(myParamDict['sniffles'])
+
+
 samples_dir = glob.glob(str(myParamDict['input_fastq'])+"/barcode*")
 
 
@@ -118,7 +124,7 @@ rule sniffels:
 	
 	threads: round(float(myParamDict['cpu'])/2)
 	run:
-		shell("sniffles -m {input.bam} -t {threads} -v {output.out}")
+		shell(sniffles+" -m {input.bam} -t {threads} -v {output.out}")
 
 rule artic_minion_nanopolish:
 	input:

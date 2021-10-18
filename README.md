@@ -33,6 +33,7 @@ conda env create --name ontdecipher --file=Environments/ontdecipher_linux.yml
 ```sh
 conda env create --name ontdecipher --file=Environments/ontdecipher_macOS.yml
 ```
+For macOS users please check Tips section blow.
 ### 3. Installing artic & pangolin:
 to install artic : 
 ```sh
@@ -86,15 +87,22 @@ python3 absulote_path_to_script_directory/run_ONTdeCIPHER.py --step pip_core --p
 `--params` : a config file containing some parameters to run the pipeline.
 #### Example:
 
-	input_fastq="path_to_fastq_pass_directory/fastq_pass"
-	input_fast5="path_to_fast5_pass_directory/fast5_pass"
+	input_fastq="absulote_path_to_fastq_pass_directory/fastq_pass"
+	input_fast5="absulote_path_to_fast5_pass_directory/fast5_pass"
 	input_sequence_summary="path_to_sequencing_summary_file/sequencing_summary_xxx.txt"
-	min="400" # minimum read length
-	max="700" # maximum read length
-	name="name_bootstrap" # RaxML output name
-	reference_genome_snpEff ="MN908947.3" # SARS-CoV-2 reference in the snpEff data base.
+	# minimum read length
+	min="400"
+	# maximum read length
+	max="700" 
+	# RaxML output name
+	name="name_bootstrap"
+	# SARS-CoV-2 reference in the snpEff data base.
+	reference_genome_snpEff ="MN908947.3"
+	# absulote path to sniffles
+	sniffles="absulote_path_to_sniffles"
+	
 
-`--samples` : a config file to associate barcodes with sample names. 
+`--samples` : a config file to associate barcodes with sample names.
 #### Example:
 
 	#barcode<tab>sampleName
@@ -139,12 +147,43 @@ Data to test ONTdeCIPHER and the results you will obtain are available here:
 
 https://osf.io/jd2vz/?view_only=6d333ddc5a3045d297d5e3cc59e7e461
 ## Tips
+**SnpEff**
+ 
 SnpEff needs a database to perform genomic annotations. There are pre-built databases for thousands of genomes.
 So to know which genomes have a pre-built database run (ONTdeCIPHER environment needs to be activated):
 ```sh
 java -jar snpEff.jar databases
 ```
 If your genome is absent from the database, you can build your database (see http://pcingola.github.io/SnpEff/se_buildingdb/).
+
+**Sniffles**:
+
+Last version of Sniffles available for macOS via conda is v1.0.7 (https://anaconda.org/bioconda/sniffles). We noticed that Sniffles v1.0.12 is more efficient for that we recommend macOS users to install the last version of Sniffles via git from : (https://github.com/fritzsedlazeck/Sniffles). To compile the sniffles correctly macOS user need to install `libomp` (via `brew` for example). After the installation, you need the path to libomp library to used instand of `/usr/local/Cellar/libomp/13.0.0` in commands blow (if it is different):
+
+```sh
+wget https://github.com/fritzsedlazeck/Sniffles/archive/master.tar.gz -O Sniffles.tar.gz
+tar xzvf Sniffles.tar.gz
+cd Sniffles-master/
+mkdir -p build/
+cd build/
+
+cmake .. -DOpenMP_C_FLAGS=-fopenmp=lomp \
+-DOpenMP_CXX_FLAGS=-fopenmp=lomp -DOpenMP_C_LIB_NAMES="libomp" \ 
+-DOpenMP_CXX_LIB_NAMES="libomp" \
+-DOpenMP_libomp_LIBRARY="/usr/local/Cellar/libomp/13.0.0/lib/libomp.dylib" \
+-DOpenMP_CXX_FLAGS="-Xpreprocessor \
+-fopenmp /usr/local/Cellar/libomp/13.0.0/lib/libomp.dylib \
+-I/usr/local/Cellar/libomp/13.0.0/include" -DOpenMP_CXX_LIB_NAMES="libomp" \
+-DOpenMP_C_FLAGS="-Xpreprocessor \
+-fopenmp /usr/local/Cellar/libomp/13.0.0/lib/libomp.dylib \
+-I/usr/local/Cellar/libomp/13.0.0/include"
+
+cd ../bin/sniffles*
+./sniffles
+
+```
+To use this version of sniffles, you can provid the absolute path to `absulote_path_to/Sniffles-master/bin/sniffles` in the `config.txt` file.
+
 
 ## References
 ### Pre-processing and quality control
