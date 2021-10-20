@@ -3,7 +3,7 @@
 #############################################################################################
 # run_snakFile.py
 #
-# Copyright (C) 2021 Fatou Seck Thiam , Mohammad Salma & Emira Cherif
+# Copyright (C) 2021 Mohammad Salma ,Fatou Seck Thiam & Emira Cherif
 #
 # This script is used to run the pipeline steps
 #
