@@ -84,7 +84,7 @@ python3 absulote_path_to_script_directory/run_ONTdeCIPHER.py --step pip_core --p
 `all` runs `pycoQC` (if sequencing_summary.txt file is provided), `pip_core` & `m_r_p`
 
 
-`--params` : a config file containing some parameters to run the pipeline.
+`--params` : the config.txt file containing the parameters to run the pipeline.
 #### Example:
 
 	input_fastq="absulote_path_to_fastq_pass_directory/fastq_pass"
