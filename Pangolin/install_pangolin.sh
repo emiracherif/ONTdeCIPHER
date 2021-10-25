@@ -31,7 +31,7 @@ pangolin -pv
 
 #####
 conda deactivate
-conda create -n ete3 python=3
+conda create -n ete3 python=3.5
 conda activate ete3
 conda install -c etetoolkit ete3 ete_toolchain
 
