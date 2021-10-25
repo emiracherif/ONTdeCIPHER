@@ -32,4 +32,4 @@ max-ambig=0.4
 min-length=25000 
 
 ###
-#usher="absolute_path_to_the_model"
+#usher

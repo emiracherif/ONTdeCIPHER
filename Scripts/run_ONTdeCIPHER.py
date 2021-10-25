@@ -205,7 +205,7 @@ def runPipeline(stepf,coref, mySampleDict, myParamDict):
 	# Run mafft, raxmlHPC & pangolin
 	if (stepf==steps_list[2]):
 		if "usher" in myParamDict.keys():
-			usher="--usher "+str(myParamDict['usher'])+" "
+			usher="--usher "
 		else:
 			usher=""
 
