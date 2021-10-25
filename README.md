@@ -73,7 +73,7 @@ conda activate ontdecipher
 2) running the master script
 
 ```sh
-python3 absulote_path_to_script_directory/run_ONTdeCIPHER.py --step pip_core --params config.txt --samples config_samplename.tsv -t 10
+python3 absolute_path_to_script_directory/run_ONTdeCIPHER.py --step pip_core --params config.txt --samples config_samplename.tsv -t 10
 ```
 
 `--step` : can be one of the following values: `pycoQC` , `pip_core` , `m_r_p` . To run all steps you can use : `all` .
