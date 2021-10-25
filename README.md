@@ -98,8 +98,8 @@ python3 absolute_path_to_script_directory/run_ONTdeCIPHER.py --step pip_core --p
 	name="name_bootstrap"
 	# SARS-CoV-2 reference in the snpEff data base.
 	reference_genome_snpEff ="MN908947.3"
-	# absulote path to sniffles
-	sniffles="absulote_path_to_sniffles"
+	# absolute path to sniffles
+	sniffles="absolute_path_to_sniffles"
 	
 
 `--samples` : a config file to associate barcodes with sample names.
@@ -182,17 +182,17 @@ cd ../bin/sniffles*
 ./sniffles
 
 ```
-To use this version of sniffles, you can provid the absolute path to `absulote_path_to/Sniffles-master/bin/sniffles` in the `config.txt` file.
+To use this version of sniffles, you can provid the absolute path to `absolute_path_to/Sniffles-master/bin/sniffles` in the `config.txt` file.
 
 **MAFFT and Pangolin**
 
 If you are amplifying and analyzing environmental or wastewater samples with fragmented genomes, you may need to modify some mafft and pangolin options.
 
-So you can choose the percentage of ambiguous nucleotides to tolerate by modifying `maxambiguous =` (mafft config), `max-ambig =` (pangolin config) in the config.txt file. 
+So you can choose the percentage of ambiguous nucleotides to tolerate by modifying `maxambiguous =` (mafft config), `max-ambig =` (pangolin config) in the `config.txt` file. 
 
-You can also choose the minimum query length allowed for Pangolin lineage assignment by modifying in the config.txt file the `min-length` option. 
+You can also choose the minimum query length allowed for Pangolin lineage assignment by modifying in the `config.txt` file the `min-length` option. 
 
-In addition to pangoLEARN, you can perform the lineage inference using UShER (Ultrafast Sample placement on Existing tRee) by activating in the config.txt the `--usher` option (https://github.com/yatisht/usher).
+In addition to pangoLEARN, you can perform the lineage inference using UShER (Ultrafast Sample placement on Existing tRee) by activating in the `config.txt` the `--usher` option (https://github.com/yatisht/usher).
 
 ## References
 ### Pre-processing and quality control
