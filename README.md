@@ -192,7 +192,7 @@ So you can choose the percentage of ambiguous nucleotides to tolerate by modifyi
 
 You can also choose the minimum query length allowed for Pangolin lineage assignment by modifying in the `config.txt` file the `min-length` option. 
 
-In addition to pangoLEARN, you can perform the lineage inference using UShER (Ultrafast Sample placement on Existing tRee) by activating in the `config.txt` the `--usher` option (https://github.com/yatisht/usher).
+In addition to pangoLEARN, you can perform the lineage inference using UShER (Ultrafast Sample placement on Existing tRee) by activating (uncomment) in the `config.txt` the `usher` option (https://github.com/yatisht/usher).
 
 ## References
 ### Pre-processing and quality control
