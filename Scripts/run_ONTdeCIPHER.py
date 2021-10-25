@@ -204,28 +204,58 @@ def runPipeline(stepf,coref, mySampleDict, myParamDict):
 	###---------------------
 	# Run mafft, raxmlHPC & pangolin
 	if (stepf==steps_list[2]):
+		if "usher" in myParamDict.keys():
+			usher="--usher "+str(myParamDict['usher'])+" "
+		else:
+			usher=""
+
+		if "maxambiguous" in myParamDict.keys():
+			maxambiguous="--maxambiguous "+str(myParamDict['maxambiguous'])+" "
+		else:
+			maxambiguous="--maxambiguous 0.3 "
+
+		if "number_distinct_starting_trees" in myParamDict.keys():
+			number_distinct_starting_trees="-N "+str(myParamDict['number_distinct_starting_trees'])+" "
+			print(number_distinct_starting_trees)
+		else:
+			number_distinct_starting_trees="-N 1000 "
+
+		if "max-ambig" in myParamDict.keys():
+			max_ambig="--max-ambig "+str(myParamDict['max-ambig'])+" "
+		else:
+			max_ambig="--max-ambig 0.3 "
+
+
+		if "min-length" in myParamDict.keys():
+			min_length="--min-length "+str(myParamDict['min-length'])+" "
+		else:
+			min_length="--min-length 25000 "
+
 
 		print("Running step2 ...")
 		subprocess.call(["mkdir","-p","Step8_consensus_fasta"])
+		subprocess.call(["rm","-f"," Step8_consensus_fasta/all_fasta.fasta"])
 		p = os.popen('cat Step3_artic_medaka_result/*.consensus.fasta > Step8_consensus_fasta/all_fasta.fasta')
 		print(p.read())
 
-		p = os.popen('mafft --thread 4 --threadtb 5 --threadit 0 --reorder --auto Step8_consensus_fasta/all_fasta.fasta > Step8_consensus_fasta/all_alignment.fasta')
+		p = os.popen('mafft --thread '+str(coref) +' --6merpair '+str(maxambiguous)+'--addfragments Step8_consensus_fasta/all_fasta.fasta '+str(myParamDict['scripts_path'])+'/artic-ncov2019_data/primer_schemes/'+str(myParamDict['primers'])+'/'+str(myParamDict['primers'].split('/')[0])+'.reference.fasta >  Step8_consensus_fasta/all_alignment.fasta')
 		print(p.read())
 
-		p = os.popen('raxmlHPC -m GTRGAMMA -p 12345 -s Step8_consensus_fasta/all_alignment.fasta -n '+str(myParamDict['name'])+' -f a -x 1000 -N 100')
+		p = os.popen('raxmlHPC -m GTRGAMMA -p 12345 -s Step8_consensus_fasta/all_alignment.fasta -n '+str(myParamDict['name'])+' -f a -x 1000 '+str(number_distinct_starting_trees))
 		print(p.read())
 
 
-		cmd='source '+str(myParamDict['conda_path'])+'/etc/profile.d/conda.sh && conda activate ete3 && python3 '+pathToSnake+'/plot_tree.py --file RAxML_bestTree.'+str(myParamDict['name'])+' && conda deactivate'
-		subprocess.Popen(cmd, shell=True, executable='/bin/bash')
-
-		cmd='source '+str(myParamDict['conda_path'])+'/etc/profile.d/conda.sh && conda activate pangolin && pangolin Step8_consensus_fasta/all_fasta.fasta --threads '+str(coref)+' && conda deactivate'
+		cmd='source '+str(myParamDict['conda_path'])+'/etc/profile.d/conda.sh && conda activate pangolin && pangolin '+str(max_ambig)+str(min_length)+usher+'Step8_consensus_fasta/all_fasta.fasta --threads '+str(coref)+' && conda deactivate'
 		subprocess.Popen(cmd, shell=True, executable='/bin/bash')
 		#print(p.read())
 
-		####
+		# ####
 		
+		print("Plot trees")
+		cmd="source "+str(myParamDict["conda_path"])+"/etc/profile.d/conda.sh && conda activate ete3 && python3 "+pathToSnake+"/plot_tree.py --file RAxML_bestTree."+str(myParamDict["name"])+" --output RAxML_bestTree --format svg && python3 "+pathToSnake+"/plot_tree.py --file RAxML_bipartitions."+str(myParamDict["name"])+" --output RAxML_bipartitions --format svg && conda deactivate"
+		subprocess.Popen(cmd, shell=True, executable='/bin/bash')
+		cmd="source "+str(myParamDict["conda_path"])+"/etc/profile.d/conda.sh && conda activate ete3 && python3 "+pathToSnake+"/plot_tree.py --file RAxML_bestTree."+str(myParamDict["name"])+" --output RAxML_bestTree --format pdf && python3 "+pathToSnake+"/plot_tree.py --file RAxML_bipartitions."+str(myParamDict["name"])+" --output RAxML_bipartitions --format pdf && conda deactivate"
+		subprocess.Popen(cmd, shell=True, executable='/bin/bash')
 
 
 
@@ -317,6 +347,8 @@ def runPipeline(stepf,coref, mySampleDict, myParamDict):
 		p = os.popen("multiqc . --dirs-depth 2")
 		print(p.read())
 
+
+
 	###---------------------
 	# Run covid.smk file
 	if (stepf==steps_list[3]):
@@ -359,6 +391,7 @@ def main():
 		sys.exit(1)
 
 	####################################################
+	
 	print("###################")
 	print(Fore.GREEN +"Completed at:",str(datetime.today().strftime('%H:%M:%S on %d-%m-%Y')))
 	time_elapsed = (time.perf_counter() - time_start)
