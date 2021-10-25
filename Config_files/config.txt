@@ -16,20 +16,20 @@ primers="nCoV-2019/V3"
 ### optional config ###################
 #######################################
 
-#### mafft config #####################
-maxambiguous=0.4 #Default: 0.3
+#### mafft config. Default: 0.3
+maxambiguous=0.4 
 
 
 
-#### raxmlHPC config ##################
-number_distinct_starting_trees=1000 #Default: 1000
+#### raxmlHPC config. Default: 1000
+number_distinct_starting_trees=1000 
 
 #### pangolin config ##################
-### Maximum proportion of Ns allowed for pangolin to attempt assignment. 
-max-ambig=0.4 #Default: 0.3
+### Maximum proportion of Ns allowed for pangolin to attempt assignment.Default: 0.3
+max-ambig=0.4 
 
-### Minimum query length allowed for pangolin to attempt assignment. 
-min-length=25000 #Default: 25000
+### Minimum query length allowed for pangolin to attempt assignment. Default: 25000 
+min-length=25000 
 
 ###
 #usher="absolute_path_to_the_model"
