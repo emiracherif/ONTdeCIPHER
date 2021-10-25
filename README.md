@@ -33,7 +33,7 @@ conda env create --name ontdecipher --file=Environments/ontdecipher_linux.yml
 ```sh
 conda env create --name ontdecipher --file=Environments/ontdecipher_macOS.yml
 ```
-For macOS users please check Tips section blow. As Medaka is not compatible Mac with Apple Silicon chip, ONTdeCIPHER does not currently run on Apple's Silicon chip equipped-devices.
+For macOS users please check Tips section blow. As Medaka is not compatible with Apple Silicon chip, ONTdeCIPHER does not currently run on Apple's Silicon chip equipped-devices.
 ### 3. Installing artic & pangolin:
 to install artic : 
 ```sh
