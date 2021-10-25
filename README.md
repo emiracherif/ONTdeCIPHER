@@ -156,7 +156,8 @@ java -jar snpEff.jar databases
 ```
 If your genome is absent from the database, you can build your own database (see http://pcingola.github.io/SnpEff/se_buildingdb/).
 
-**Sniffles**:
+**Sniffles**
+
 The last version of Sniffles available for macOS via conda is v1.0.7 (https://anaconda.org/bioconda/sniffles). However, we've noticed that Sniffles v1.0.12 is more efficient. Therefore, we recommend macOS users to install the last version of Sniffles via git from : (https://github.com/fritzsedlazeck/Sniffles). To correctly compile Sniffles, macOS users need to install `libomp` (via `brew` for example). After the installation, you need the path to libomp library to be used instead of `/usr/local/Cellar/libomp/13.0.0` in commands below (if it is different):
 
 ```sh
@@ -183,6 +184,15 @@ cd ../bin/sniffles*
 ```
 To use this version of sniffles, you can provid the absolute path to `absulote_path_to/Sniffles-master/bin/sniffles` in the `config.txt` file.
 
+**MAFFT and Pangolin**
+
+If you are amplifying and analyzing environmental or wastewater samples with fragmented genomes, you may need to modify some mafft and pangolin options.
+
+So you can choose the percentage of ambiguous nucleotides to tolerate by modifying `maxambiguous =` (mafft config), `max-ambig =` (pangolin config) in the config.txt file. 
+
+You can also choose the minimum query length allowed for Pangolin lineage assignment by modifying in the config.txt file the `min-length` option. 
+
+In addition to pangoLEARN, you can perform the lineage inference using UShER (Ultrafast Sample placement on Existing tRee) by activating in the config.txt the `--usher` option (https://github.com/yatisht/usher).
 
 ## References
 ### Pre-processing and quality control
