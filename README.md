@@ -154,11 +154,10 @@ So to know which genomes have a pre-built database run (ONTdeCIPHER environment 
 ```sh
 java -jar snpEff.jar databases
 ```
-If your genome is absent from the database, you can build your database (see http://pcingola.github.io/SnpEff/se_buildingdb/).
+If your genome is absent from the database, you can build your own database (see http://pcingola.github.io/SnpEff/se_buildingdb/).
 
 **Sniffles**:
-
-Last version of Sniffles available for macOS via conda is v1.0.7 (https://anaconda.org/bioconda/sniffles). We noticed that Sniffles v1.0.12 is more efficient for that we recommend macOS users to install the last version of Sniffles via git from : (https://github.com/fritzsedlazeck/Sniffles). To compile the sniffles correctly macOS user need to install `libomp` (via `brew` for example). After the installation, you need the path to libomp library to used instand of `/usr/local/Cellar/libomp/13.0.0` in commands blow (if it is different):
+The last version of Sniffles available for macOS via conda is v1.0.7 (https://anaconda.org/bioconda/sniffles). However, we've noticed that Sniffles v1.0.12 is more efficient. Therefore, we recommend macOS users to install the last version of Sniffles via git from : (https://github.com/fritzsedlazeck/Sniffles). To correctly compile Sniffles, macOS users need to install `libomp` (via `brew` for example). After the installation, you need the path to libomp library to be used instead of `/usr/local/Cellar/libomp/13.0.0` in commands below (if it is different):
 
 ```sh
 wget https://github.com/fritzsedlazeck/Sniffles/archive/master.tar.gz -O Sniffles.tar.gz
