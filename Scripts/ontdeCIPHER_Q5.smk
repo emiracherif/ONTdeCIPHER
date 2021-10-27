@@ -111,8 +111,8 @@ rule artic_minion_medaka:
 	threads: round(float(myParamDict['cpu'])/2)
 	shell:
 		"cd Step3_artic_medaka_result/ && artic minion --medaka --medaka-model "+str(myParamDict['medaka_model'])+" "
-		"--normalise 200 --threads {threads} --strict --scheme-directory "+str(myParamDict['scripts_path'])+"/artic-ncov2019_data/primer_schemes "+sequencing_summary+
-		"--read-file ../{input.artic_guppyplex_fastq} --fast5-directory {input.fast5_Dir} "+str(myParamDict['primers'])+" {wildcards.sample}"
+		" --normalise 200 --threads {threads} --strict --scheme-directory "+str(myParamDict['scripts_path'])+"/artic-ncov2019_data/primer_schemes --sequencing-summary "+str(myParamDict['input_sequence_summary'])+
+		" --read-file ../{input.artic_guppyplex_fastq} --fast5-directory {input.fast5_Dir} "+str(myParamDict['primers'])+" {wildcards.sample}"
 
 
 rule sniffels:
@@ -136,9 +136,9 @@ rule artic_minion_nanopolish:
 	
 	threads: round(float(myParamDict['cpu'])/2)
 	shell:
-		"cd Step4_artic_nanopolish_result/ && artic minion --normalise 200 --threads {threads} --strict --scheme-directory "+str(myParamDict['scripts_path'])
-		"/artic-ncov2019_data/primer_schemes --read-file ../{input.artic_guppyplex_fastq}  --fast5-directory {input.fast5_Dir} "+sequencing_summary+
-		" "+str(myParamDict['primers'])+" {wildcards.sample}"
+		"cd Step4_artic_nanopolish_result/ && artic minion --normalise 200 --threads {threads} --strict --scheme-directory "+str(myParamDict['scripts_path'])+"/artic-ncov2019_data/primer_schemes"
+		" --sequencing-summary "+str(myParamDict['input_sequence_summary'])+" --read-file ../{input.artic_guppyplex_fastq}  --fast5-directory {input.fast5_Dir} "
+		+str(myParamDict['primers'])+" {wildcards.sample}"
 
 
 rule snpEff:
