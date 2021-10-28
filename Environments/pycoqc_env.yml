@@ -1,0 +1,18 @@
+name: pycoqc
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+    - python>=3.6
+    - pip>=19.2.1
+    - ripgrep>=11.0.1
+    - numpy>=1.19
+    - scipy>=1.5
+    - pandas>=1.1
+    - plotly==4.1.0
+    - jinja2>=2.10
+    - h5py>=3.1
+    - tqdm>=4.54
+    - pysam>=0.16
+    - pycoqc

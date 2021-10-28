@@ -175,8 +175,9 @@ def runPipeline(stepf,coref, mySampleDict, myParamDict):
 	###---------------------
 	# Run pycoQC
 	if (stepf==steps_list[0]):
-		p = os.popen('pycoQC -f '+str(myParamDict['input_sequence_summary'])+' -o pycoQC_report.html')
-		print(p.read())
+		cmd='source '+str(myParamDict['conda_path'])+'/etc/profile.d/conda.sh && conda activate pycoqc && pycoQC -f '+str(myParamDict['input_sequence_summary'])+' -o pycoQC_report.html && conda deactivate'
+		subprocess.Popen(cmd, shell=True, executable='/bin/bash')
+
 
 	###---------------------
 	# Run snakemake
