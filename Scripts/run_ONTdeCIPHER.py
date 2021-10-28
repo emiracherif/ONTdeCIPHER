@@ -271,9 +271,13 @@ def runPipeline(stepf,coref, mySampleDict, myParamDict):
 
 		####
 		samples_dir = sorted(glob.glob("Summary/*_snake_Q.txt"))
+		if "input_fast5" in myParamDict.keys():
+			samples_dir = sorted(glob.glob("Summary/*_snake_Q5.txt"))
+
 		listSample=[]
 		for samp in samples_dir:
 			listSample.append(samp)
+		
 		#print(listSample)
 
 		df_all="sample,file,format,type,num_seqs,sum_len,min_len,avg_len,max_len\n"
