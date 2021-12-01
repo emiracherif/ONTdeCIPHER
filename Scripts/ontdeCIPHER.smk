@@ -53,8 +53,8 @@ samples_dir = glob.glob(str(myParamDict['input_fastq'])+"/barcode*")
 
 
 samples=[]
-for smpl in samples_dir:
-	smpl=smpl.split("/")[-1]
+for smpl in mySampleDict.keys():
+	#smpl=smpl.split("/")[-1]
 	smpl=mySampleDict[smpl]+"_"+smpl
 	samples.append(smpl)
 

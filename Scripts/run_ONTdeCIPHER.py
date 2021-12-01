@@ -24,11 +24,12 @@ import matplotlib.pyplot as plt
 import time
 import resource
 import tracemalloc
+import colorama
 from colorama import Fore, Back, Style
+import snakemake
 
 
-
-
+colorama.init(autoreset=True)
 ###############################################################################
 ############# Some global variables ###########################################
 ## The list of steps
@@ -61,6 +62,35 @@ def getSnakeDir():
 	tool_dir="/".join(directorys)
 	return (tool_dir)
 
+def checkfiles(myParamDict,mySampleDict):
+	filesToCheck=["input_fastq","input_fast5"] 
+	dataOK = True
+	for file in filesToCheck:
+		if file in myParamDict.keys():
+			if not os.path.isdir(myParamDict[file]):				
+				dataOK= False
+				print(Fore.RED +"ERROR: ",myParamDict[file],Fore.RED +": No such directory.")
+				sys.exit(1)
+			else:
+				for sample in mySampleDict.keys():
+					if not os.path.isdir(myParamDict[file]+"/"+sample):
+						dataOK= False
+						print(Fore.RED +"ERROR: ",myParamDict[file]+"/"+sample,Fore.RED +": No such file.")
+						sys.exit(1)
+	
+	if "input_sequence_summary" in myParamDict.keys():
+		if not os.path.isfile(myParamDict["input_sequence_summary"]):
+			dataOK= False
+			print(Fore.RED +"ERROR: ",myParamDict["input_sequence_summary"],Fore.RED +": No such file.")
+			sys.exit(1)
+
+	return dataOK
+		
+
+
+
+
+
 
 def getCondaPath():
 	commandConda="echo $CONDA_PREFIX"
@@ -81,16 +111,16 @@ def printInfo():
 	Return NULL """
 
 	print(Fore.GREEN +"\n -------------------------------",'\n',
-	"This job has been started on :",datetime.today().strftime('%d-%m-%Y'),
-	"at :", datetime.today().strftime('%H:%M:%S'),'\n',
-	"-------------------------------",'\n',
-	"Launched by:",pwd.getpwuid( os.getuid())[4],
-	", with this username:",pwd.getpwuid( os.getuid())[0],'\n',
-	"-------------------------------\n Working directory is:")
+	Fore.GREEN +"This job has been started on :",datetime.today().strftime('%d-%m-%Y'),
+	Fore.GREEN +"at :", datetime.today().strftime('%H:%M:%S'),'\n',
+	Fore.GREEN +"-------------------------------",'\n',
+	Fore.GREEN +"Launched by:",pwd.getpwuid( os.getuid())[4],
+	Fore.GREEN +", with this username:",pwd.getpwuid( os.getuid())[0],'\n',
+	Fore.GREEN +"-------------------------------\n Working directory is:")
 
 	subprocess.call(["pwd"])
 	print(Fore.YELLOW +"-------------------------------",'\n',
-		"You call this script form:", '\n',
+		Fore.GREEN +"You call this script form:", '\n',
 		getSnakeDir(),'\n')
 
 
@@ -189,14 +219,23 @@ def runPipeline(stepf,coref, mySampleDict, myParamDict):
 		if "input_fast5" in myParamDict.keys():
 			snakeFileTarget="ontdeCIPHER_Q5.smk"
 
-		p = os.popen('snakemake -s '+pathToSnake+'/'+snakeFileTarget+' --cores '+str(coref) +' --dag | dot -Tpdf > DagFiles/dag_start_'+str(datetime.today().strftime('at_%H-%M-%S_on_%d-%m-%Y'))+'.pdf')
-		print(p.read())
+		# p = os.popen('snakemake -s '+pathToSnake+'/'+snakeFileTarget+' --cores '+str(coref) +' --dag | dot -Tpdf > DagFiles/dag_start_'+str(datetime.today().strftime('at_%H-%M-%S_on_%d-%m-%Y'))+'.pdf')
+		# print(p.read())
+
+		cmd='snakemake -s '+pathToSnake+'/'+snakeFileTarget+' --cores '+str(coref) +' --dag | dot -Tpdf > DagFiles/dag_start_'+str(datetime.today().strftime('at_%H-%M-%S_on_%d-%m-%Y'))+'.pdf'
+		subprocess.Popen(cmd, shell=True, executable='/bin/bash')
 
 		p = os.popen('snakemake -s '+pathToSnake+'/'+snakeFileTarget+' --cores '+str(coref))
 		print(p.read())
 
-		p = os.popen('snakemake --report report_'+str(datetime.today().strftime('at_%H-%M-%S_on_%d-%m-%Y'))+'.html -s '+pathToSnake+'/'+snakeFileTarget)
-		print(p.read())
+		snakemake_version=str(snakemake.__version__)
+
+		if snakemake_version == '3.13.3':
+			cmd='source '+str(myParamDict['conda_path'])+'/etc/profile.d/conda.sh && conda activate pangolin && snakemake --report report_'+str(datetime.today().strftime('at_%H-%M-%S_on_%d-%m-%Y'))+'.html -s '+pathToSnake+'/'+snakeFileTarget
+			subprocess.Popen(cmd, shell=True, executable='/bin/bash')
+		else:	
+			p = os.popen('snakemake --report report_'+str(datetime.today().strftime('at_%H-%M-%S_on_%d-%m-%Y'))+'.html -s '+pathToSnake+'/'+snakeFileTarget)
+			print(p.read())
 
 		p = os.popen('snakemake -s '+pathToSnake+'/'+snakeFileTarget+' --cores '+str(coref) +' --dag | dot -Tpdf > DagFiles/dag_end_'+str(datetime.today().strftime('at_%H-%M-%S_on_%d-%m-%Y'))+'.pdf')
 		print(p.read())
@@ -233,33 +272,37 @@ def runPipeline(stepf,coref, mySampleDict, myParamDict):
 			min_length="--min-length 25000 "
 
 
-		print("Running step2 ...")
-		subprocess.call(["mkdir","-p","Step8_consensus_fasta"])
-		subprocess.call(["rm","-f"," Step8_consensus_fasta/all_fasta.fasta"])
-		p = os.popen('cat Step3_artic_medaka_result/*.consensus.fasta > Step8_consensus_fasta/all_fasta.fasta')
+		print(Fore.GREEN +"Generate All fasta consensus file ...")
+		subprocess.call(["mkdir","-p","Step9_consensus_fasta"])
+		subprocess.call(["rm","-f"," Step9_consensus_fasta/all_fasta.fasta"])
+		p = os.popen('cat Step3_artic_medaka_result/*.consensus.fasta > Step9_consensus_fasta/all_fasta.fasta')
 		print(p.read())
-
-		p = os.popen('mafft --thread '+str(coref) +' --6merpair '+str(maxambiguous)+'--addfragments Step8_consensus_fasta/all_fasta.fasta '+str(myParamDict['scripts_path'])+'/artic-ncov2019_data/primer_schemes/'+str(myParamDict['primers'])+'/'+str(myParamDict['primers'].split('/')[0])+'.reference.fasta >  Step8_consensus_fasta/all_alignment.fasta')
-		print(p.read())
-
-		p = os.popen('raxmlHPC -m GTRGAMMA -p 12345 -s Step8_consensus_fasta/all_alignment.fasta -n '+str(myParamDict['name'])+' -f a -x 1000 '+str(number_distinct_starting_trees))
+		print(Fore.GREEN +"Run mafft ...")
+		p = os.popen('mafft --thread '+str(coref) +' --6merpair '+str(maxambiguous)+'--addfragments Step9_consensus_fasta/all_fasta.fasta '+str(myParamDict['scripts_path'])+'/artic-ncov2019_data/primer_schemes/'+str(myParamDict['primers'])+'/'+str(myParamDict['primers'].split('/')[0])+'.reference.fasta >  Step9_consensus_fasta/all_alignment.fasta')
 		print(p.read())
 
 
-		cmd='source '+str(myParamDict['conda_path'])+'/etc/profile.d/conda.sh && conda activate pangolin && pangolin '+str(max_ambig)+str(min_length)+usher+'Step8_consensus_fasta/all_fasta.fasta --threads '+str(coref)+' && conda deactivate'
+		print(Fore.GREEN +"Run raxmlHPC ...")
+		p = os.popen('raxmlHPC -m GTRGAMMA -p 12345 -s Step9_consensus_fasta/all_alignment.fasta -n '+str(myParamDict['name'])+' -f a -x 1000 '+str(number_distinct_starting_trees))
+		print(p.read())
+
+		print(Fore.GREEN +"Run pangolin ...")
+		cmd='source '+str(myParamDict['conda_path'])+'/etc/profile.d/conda.sh && conda activate pangolin && pangolin '+str(max_ambig)+str(min_length)+usher+'Step9_consensus_fasta/all_fasta.fasta --threads '+str(coref)+' && conda deactivate'
 		subprocess.Popen(cmd, shell=True, executable='/bin/bash')
 		#print(p.read())
 
 		# ####
-		
-		print("Plot trees")
-		cmd="source "+str(myParamDict["conda_path"])+"/etc/profile.d/conda.sh && conda activate ete3 && python3 "+pathToSnake+"/plot_tree.py --file RAxML_bestTree."+str(myParamDict["name"])+" --output RAxML_bestTree --format svg && python3 "+pathToSnake+"/plot_tree.py --file RAxML_bipartitions."+str(myParamDict["name"])+" --output RAxML_bipartitions --format svg && conda deactivate"
-		subprocess.Popen(cmd, shell=True, executable='/bin/bash')
-		cmd="source "+str(myParamDict["conda_path"])+"/etc/profile.d/conda.sh && conda activate ete3 && python3 "+pathToSnake+"/plot_tree.py --file RAxML_bestTree."+str(myParamDict["name"])+" --output RAxML_bestTree --format pdf && python3 "+pathToSnake+"/plot_tree.py --file RAxML_bipartitions."+str(myParamDict["name"])+" --output RAxML_bipartitions --format pdf && conda deactivate"
-		subprocess.Popen(cmd, shell=True, executable='/bin/bash')
+		if os.path.isfile("RAxML_bestTree."+str(myParamDict["name"])):
+
+			print(Fore.GREEN +"Plot trees ...")
+			cmd="source "+str(myParamDict["conda_path"])+"/etc/profile.d/conda.sh && conda activate ete3 && python3 "+pathToSnake+"/plot_tree.py --file RAxML_bestTree."+str(myParamDict["name"])+" --output RAxML_bestTree --format svg && python3 "+pathToSnake+"/plot_tree.py --file RAxML_bipartitions."+str(myParamDict["name"])+" --output RAxML_bipartitions --format svg && conda deactivate"
+			subprocess.Popen(cmd, shell=True, executable='/bin/bash')
+
+			cmd="source "+str(myParamDict["conda_path"])+"/etc/profile.d/conda.sh && conda activate ete3 && python3 "+pathToSnake+"/plot_tree.py --file RAxML_bestTree."+str(myParamDict["name"])+" --output RAxML_bestTree --format pdf && python3 "+pathToSnake+"/plot_tree.py --file RAxML_bipartitions."+str(myParamDict["name"])+" --output RAxML_bipartitions --format pdf && conda deactivate"
+			subprocess.Popen(cmd, shell=True, executable='/bin/bash')
 
 
-
+		print(Fore.GREEN +"Generate stats ...")
 		inputfiles=""
 		for key, val in mySampleDict.items():
 			inputfiles+="Step3_artic_medaka_result/"+val+"_"+key+".trimmed.rg.sorted.bam "
@@ -389,7 +432,8 @@ def main():
 	mySampleDict, myParamDict = readConfigFile(args.samples,args.params,args.threads)
 
 	if args.step in steps_list:
-		runPipeline(args.step,args.threads, mySampleDict, myParamDict)
+		if checkfiles(myParamDict, mySampleDict):
+			runPipeline(args.step,args.threads, mySampleDict, myParamDict)
 
 	else:
 		print("ERROR: ",args.step," is not supported. Please select one these:",steps_list)
@@ -409,6 +453,7 @@ def main():
 	tracemalloc.stop()
 
 	print(" Done ! ")
+	
 
 
 if __name__ == '__main__':
