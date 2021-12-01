@@ -150,7 +150,7 @@ rule snpEff:
 		html="Step5_snpEff_result/HtmlFiles/{sample}.html"
 
 	shell:
-		"snpEff ann -v "+str(myParamDict['reference_genome_snpEff'])+" {input.vcf} -s {output.html} -o bed > {output.bed}"
+		"snpEff ann -v "+str(myParamDict['reference_genome_snpEff'])+" {input.vcf} -s {output.html} -o vcf > {output.bed}"
 
 
 rule plotCoverage:
