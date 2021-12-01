@@ -70,7 +70,7 @@ FINAL_FILES = ['Summary/'+sample+'_snake_Q5.txt' for sample in samples]
 
 foldersList= ["Summary",
 				"Step2_artic_guppyplex_filter", "Step3_artic_medaka_result","Step4_artic_nanopolish_result",
-				"Step5_snpEff_result", "Step5_snpEff_result/BedFiles", "Step5_snpEff_result/HtmlFiles",
+				"Step5_snpEff_result", "Step5_snpEff_result/VcfFiles", "Step5_snpEff_result/HtmlFiles",
 				"Step6_plotCoverage_result", "Step7_bamCoverage_result","Step8_sniffles_result"
 				]
 #Creat output directories
@@ -146,7 +146,7 @@ rule snpEff:
 		vcf = "Step3_artic_medaka_result/{sample}.pass.vcf.gz"
 
 	output:
-		bed="Step5_snpEff_result/BedFiles/{sample}.ann.bed",
+		bed="Step5_snpEff_result/VcfFiles/{sample}.ann.vcf",
 		html="Step5_snpEff_result/HtmlFiles/{sample}.html"
 
 	shell:
@@ -192,7 +192,7 @@ rule finalizing:
 		input2= "Step2_artic_guppyplex_filter/{sample}.fastq",
 		input3= "Step3_artic_medaka_result/{sample}.minion.log.txt",
 		input4= "Step4_artic_nanopolish_result/{sample}.minion.log.txt",
-		input5= "Step5_snpEff_result/BedFiles/{sample}.ann.bed",
+		input5= "Step5_snpEff_result/VcfFiles/{sample}.ann.vcf",
 		input6= "Step6_plotCoverage_result/{sample}.pdf",
 		bedGraph="Step7_bamCoverage_result/{sample}.bedgraph",
 		bigwig="Step7_bamCoverage_result/{sample}.bigwig",
