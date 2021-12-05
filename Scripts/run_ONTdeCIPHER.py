@@ -8,7 +8,8 @@
 # This script is used to run the pipeline steps
 #
 # usage:
-# python3 run_snakFile_v2.py [-h] --step STEP --params PARAMS --samples SAMPLES --threads INT
+# python3 run_ONTdeCIPHER.py [-h] --step STEP --params PARAMS --samples SAMPLES
+#                          [--threads THREADS]
 #############################################################################################
 #############################################################################################
 

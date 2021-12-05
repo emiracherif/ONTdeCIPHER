@@ -8,7 +8,9 @@
 # This script is used to run the pipeline steps
 #
 # usage:
-# python3 run_snakFile_v2.py [-h] --step STEP --params PARAMS --samples SAMPLES --threads INT
+# python3 companion_script.py [-h] --databases DATABASES --fastaCsonsensus
+#                           FASTACSONSENSUS --params PARAMS [--threads THREADS]
+#                           [--output OUTPUT]
 #############################################################################################
 #############################################################################################
 
@@ -212,7 +214,7 @@ def main():
 
 	##############################################################################
 
-	parser = argparse.ArgumentParser(description='run_ONTdeCIPHER.py')
+	parser = argparse.ArgumentParser(description='companion_script.py')
 	parser.add_argument('--databases', help='A user databases fasta file.', required=True)
 	parser.add_argument('--fastaCsonsensus', help='Step9_consensus_fasta/all_fasta.fasta or any fasta consensus file.', required=True)
 	parser.add_argument('--params', help='Config file containing some parameters to run the pipeline.', required=True)
