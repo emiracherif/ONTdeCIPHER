@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #############################################################################################
-# run_snakFile.py
+# run_ONTdeCIPHER.py
 #
 # Copyright (C) 2021 Mohammad Salma, Fatou Seck Thiam & Emira Cherif
 #

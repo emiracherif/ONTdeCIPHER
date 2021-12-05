@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 
 #############################################################################################
-# run_snakFile.py
+# companion_script.py
 #
 # Copyright (C) 2021 Mohammad Salma, Fatou Seck Thiam & Emira Cherif
 #
-# This script is used to run the pipeline steps
 #
 # usage:
 # python3 companion_script.py [-h] --databases DATABASES --fastaConsensus
