@@ -1,7 +1,7 @@
 # Companion script
 
 ONTdeCIPHER is an Oxford Nanopore Technology (ONT) amplicon-based sequencing pipeline to perform key downstream analyses on raw sequencing data from quality testing to SNPs effect to phylogenetic analysis. 
-For user who would like to aligne ONTdeCIPHER Csonsensus fasta file `Step9_consensus_fasta/all_fasta.fasta` to custom fasta reference file, we provide a `companion_script.py`.
+For user who would like to align ONTdeCIPHER Csonsensus fasta file `Step9_consensus_fasta/all_fasta.fasta` to custom fasta reference file, we provide a `companion_script.py`.
  
 ## To use companion_script.py :
 
