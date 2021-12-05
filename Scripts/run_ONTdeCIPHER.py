@@ -185,7 +185,93 @@ def readConfigFile(samplesf, paramsf, threads):
 						pass
 	#print(myParamDict)
 	return(mySampleDict, myParamDict)
+####################################################
+def generateStats(mySampleDict,myParamDict,coref):
+	print(Fore.GREEN +"Generate stats ...")
+	inputfiles=""
+	for key, val in mySampleDict.items():
+		inputfiles+="Step3_artic_medaka_result/"+val+"_"+key+".trimmed.rg.sorted.bam "
 
+	print(inputfiles)
+	p = os.popen("plotCoverage --bamfiles "+inputfiles+"-o Summary/All.pdf --smartLabels --plotWidth 25 --plotHeight 7 --outRawCounts Summary/All.txt --outCoverageMetrics Summary/All.txt --plotFileFormat pdf -p "+str(coref)+ " >> Logs/all_samples_plotCoverage.log 2>&1")
+	print(p.read())
+
+	samples_dir = sorted(glob.glob("Summary/*_snake_Q.txt"))
+	if "input_fast5" in myParamDict.keys():
+		samples_dir = sorted(glob.glob("Summary/*_snake_Q5.txt"))
+
+	listSample=[]
+	for samp in samples_dir:
+		listSample.append(samp)
+	
+	#print(listSample)
+
+	df_all="sample,file,format,type,num_seqs,sum_len,min_len,avg_len,max_len\n"
+	for file in listSample:
+		with open(file, 'r') as infile:
+			nameSample=file.split("_snake1")[0].split("/")[-1]
+
+			df = ""
+			for line in infile:
+				newLine=""
+				if (not line.startswith('#')):
+					if (not line.startswith('--')):
+						if (not line.startswith('file')):
+							columns =line.split(" ")
+							for col in columns:
+								if col != "":
+									if col=="-":
+										col="before_filtring"
+									if col.startswith('Step2'):
+										col ="after_filtring"
+
+									newLine+= col+","
+
+							#print(nameSample+","+newLine.strip(",")+"\n")
+							df+=nameSample+","+newLine.strip(",")+"\n"
+		df_all+=df
+
+	###
+	data = io.StringIO(df_all)
+	df2 = pd.read_csv(data, sep=",")
+	df2['sample'] = df2['sample'].str.replace("_snake_Q.txt","")
+	df2['sample'] = df2['sample'].str.replace("_snake_QC.txt","")
+
+	# set plot style: grey grid in the background:
+	sns.set(style="darkgrid")
+
+	# Set the figure size
+	plt.figure(figsize=(20, 15))
+
+	# grouped barplot
+	sns.barplot(x="sample", y="num_seqs", hue="file", data=df2, ci=None);
+	plt.xticks(rotation=45)
+	plt.ylabel("number of sequences")
+	plt.xlabel("Samples")
+	plt.title("Summary")
+	plt.savefig("Summary/stat.pdf", bbox_inches='tight')
+
+
+
+	gb = df2.groupby("file")
+	listTilte=["After","Before"]
+	i=0
+	for x in gb.groups:
+
+		df3= pd.DataFrame(gb.get_group(x),columns=["sample","min_len","avg_len","max_len"])
+		df3['sample'] = df3['sample'].str.replace("_snake_Q.txt","")
+		df3['sample'] = df3['sample'].str.replace("_snake_QC.txt","")
+		print (df3)
+		df3 = df3.set_index('sample')
+		plt.figure(figsize=(70, 75))
+		df3.plot.barh(stacked=True, title= listTilte[i]);
+		plt.xticks(rotation=45, fontsize=7)
+		plt.yticks(rotation=45, fontsize=7)
+		plt.xlabel("number of sequences")
+		plt.ylabel("Samples")
+		plt.legend(borderaxespad=0, fontsize=7)
+		i+=1
+		plt.savefig("Summary/summary_"+str(listTilte[i-1])+".pdf", bbox_inches='tight')
 
 
 ####################################################
@@ -244,6 +330,10 @@ def runPipeline(stepf,coref, mySampleDict, myParamDict):
 	###---------------------
 	# Run mafft, raxmlHPC & pangolin
 	if (stepf==steps_list[2]):
+		## generate plots
+		generateStats(mySampleDict,myParamDict,coref)
+
+
 		if "usher" in myParamDict.keys():
 			usher="--usher "
 		else:
@@ -283,7 +373,7 @@ def runPipeline(stepf,coref, mySampleDict, myParamDict):
 
 
 		print(Fore.GREEN +"Run raxmlHPC ...")
-		p = os.popen('raxmlHPC -m GTRGAMMA -p 12345 -s Step9_consensus_fasta/all_alignment.fasta -n '+str(myParamDict['name'])+' -f a -x 1000 '+str(number_distinct_starting_trees))
+		p = os.popen('raxmlHPC -T '+str(coref) +' -m GTRGAMMA -p 12345 -s Step9_consensus_fasta/all_alignment.fasta -n '+str(myParamDict['name'])+' -f a -x 1000 '+str(number_distinct_starting_trees))
 		print(p.read())
 
 		print(Fore.GREEN +"Run pangolin ...")
@@ -295,104 +385,15 @@ def runPipeline(stepf,coref, mySampleDict, myParamDict):
 		if os.path.isfile("RAxML_bestTree."+str(myParamDict["name"])):
 
 			print(Fore.GREEN +"Plot trees ...")
-			cmd="source "+str(myParamDict["conda_path"])+"/etc/profile.d/conda.sh && conda activate ete3 && python3 "+pathToSnake+"/plot_tree.py --file RAxML_bestTree."+str(myParamDict["name"])+" --output RAxML_bestTree --format svg && python3 "+pathToSnake+"/plot_tree.py --file RAxML_bipartitions."+str(myParamDict["name"])+" --output RAxML_bipartitions --format svg && conda deactivate"
-			subprocess.Popen(cmd, shell=True, executable='/bin/bash')
+			cmd="source "+str(myParamDict["conda_path"])+"/etc/profile.d/conda.sh && conda activate ete3 && python3 "+pathToSnake+"/plot_tree.py --file RAxML_bestTree."+str(myParamDict["name"])+" --output RAxML_bestTree_"+str(myParamDict["name"])+" --format svg && python3 "+pathToSnake+"/plot_tree.py --file RAxML_bipartitions."+str(myParamDict["name"])+" --output RAxML_bipartitions_"+str(myParamDict["name"])+" --format svg && conda deactivate"
+			subprocess.run(cmd, shell=True, executable='/bin/bash')
 
-			cmd="source "+str(myParamDict["conda_path"])+"/etc/profile.d/conda.sh && conda activate ete3 && python3 "+pathToSnake+"/plot_tree.py --file RAxML_bestTree."+str(myParamDict["name"])+" --output RAxML_bestTree --format pdf && python3 "+pathToSnake+"/plot_tree.py --file RAxML_bipartitions."+str(myParamDict["name"])+" --output RAxML_bipartitions --format pdf && conda deactivate"
-			subprocess.Popen(cmd, shell=True, executable='/bin/bash')
-
-
-		print(Fore.GREEN +"Generate stats ...")
-		inputfiles=""
-		for key, val in mySampleDict.items():
-			inputfiles+="Step3_artic_medaka_result/"+val+"_"+key+".trimmed.rg.sorted.bam "
-
-		print(inputfiles)
-		p = os.popen("plotCoverage --bamfiles "+inputfiles+"-o Summary/All.pdf --smartLabels --plotWidth 25 --plotHeight 7 --outRawCounts Summary/All.txt --outCoverageMetrics Summary/All.txt --plotFileFormat pdf -p "+str(coref))
-		print(p.read())
-
+			cmd="source "+str(myParamDict["conda_path"])+"/etc/profile.d/conda.sh && conda activate ete3 && python3 "+pathToSnake+"/plot_tree.py --file RAxML_bestTree."+str(myParamDict["name"])+" --output RAxML_bestTree_"+str(myParamDict["name"])+" --format pdf && python3 "+pathToSnake+"/plot_tree.py --file RAxML_bipartitions."+str(myParamDict["name"])+" --output RAxML_bipartitions_"+str(myParamDict["name"])+" --format pdf && conda deactivate"
+			subprocess.run(cmd, shell=True, executable='/bin/bash')
 
 		####
-		samples_dir = sorted(glob.glob("Summary/*_snake_Q.txt"))
-		if "input_fast5" in myParamDict.keys():
-			samples_dir = sorted(glob.glob("Summary/*_snake_Q5.txt"))
-
-		listSample=[]
-		for samp in samples_dir:
-			listSample.append(samp)
-		
-		#print(listSample)
-
-		df_all="sample,file,format,type,num_seqs,sum_len,min_len,avg_len,max_len\n"
-		for file in listSample:
-			with open(file, 'r') as infile:
-				nameSample=file.split("_snake1")[0].split("/")[-1]
-
-				df = ""
-				for line in infile:
-					newLine=""
-					if (not line.startswith('#')):
-						if (not line.startswith('--')):
-							if (not line.startswith('file')):
-								columns =line.split(" ")
-								for col in columns:
-									if col != "":
-										if col=="-":
-											col="before_filtring"
-										if col.startswith('Step2'):
-											col ="after_filtring"
-
-										newLine+= col+","
-
-								#print(nameSample+","+newLine.strip(",")+"\n")
-								df+=nameSample+","+newLine.strip(",")+"\n"
-			df_all+=df
-
-		###
-		data = io.StringIO(df_all)
-		df2 = pd.read_csv(data, sep=",")
-		df2['sample'] = df2['sample'].str.replace("_snake_Q.txt","")
-		df2['sample'] = df2['sample'].str.replace("_snake_QC.txt","")
-
-		# set plot style: grey grid in the background:
-		sns.set(style="darkgrid")
-
-		# Set the figure size
-		plt.figure(figsize=(20, 15))
-
-		# grouped barplot
-		sns.barplot(x="sample", y="num_seqs", hue="file", data=df2, ci=None);
-		plt.xticks(rotation=45)
-		plt.ylabel("number of sequences")
-		plt.xlabel("Samples")
-		plt.title("Summary")
-		plt.savefig("Summary/stat.pdf", bbox_inches='tight')
-
-
-
-		gb = df2.groupby("file")
-		listTilte=["After","Before"]
-		i=0
-		for x in gb.groups:
-
-			df3= pd.DataFrame(gb.get_group(x),columns=["sample","min_len","avg_len","max_len"])
-			df3['sample'] = df3['sample'].str.replace("_snake_Q.txt","")
-			df3['sample'] = df3['sample'].str.replace("_snake_QC.txt","")
-			print (df3)
-			df3 = df3.set_index('sample')
-			plt.figure(figsize=(70, 75))
-			df3.plot.barh(stacked=True, title= listTilte[i]);
-			plt.xticks(rotation=45, fontsize=7)
-			plt.yticks(rotation=45, fontsize=7)
-			plt.xlabel("number of sequences")
-			plt.ylabel("Samples")
-			plt.legend(borderaxespad=0, fontsize=7)
-			i+=1
-			plt.savefig("Summary/summary_"+str(listTilte[i-1])+".pdf", bbox_inches='tight')
-
-
 		print("Run multiqc")
-		p = os.popen("multiqc . --dirs-depth 2")
+		p = os.popen("sleep 20 && multiqc . --dirs-depth 2")
 		print(p.read())
 
 
