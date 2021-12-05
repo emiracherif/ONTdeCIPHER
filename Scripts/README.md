@@ -52,7 +52,7 @@ After running ONTdeCIPHER steps you will hava in your working directory the foll
 	├── RAxML_bootstrap.testComScript2
 	├── RAxML_info.testComScript2
 	├── Step1_usedConfigs
-	├── Step8_consensus_fasta
+	├── Step9_consensus_fasta
 	├	├── testComScript2_all_alignment.fasta
 	├	├── testComScript2_all_alignment.fasta.reduced
 	├	└── testComScript2_reference.fasta

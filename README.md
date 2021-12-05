@@ -135,7 +135,8 @@ After running ONTdeCIPHER steps you will hava in your working directory the foll
 	├── Step5_snpEff_result
 	├── Step6_plotCoverage_result
 	├── Step7_bamCoverage_result
-	├── Step8_consensus_fasta
+	├── Step8_sniffles_result
+	├── Step9_consensus_fasta
 	├── Summary
 	├── fast5_pass
 	├── fastq_pass
