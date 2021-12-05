@@ -1,7 +1,7 @@
 # Companion script
 
 ONTdeCIPHER is an Oxford Nanopore Technology (ONT) amplicon-based sequencing pipeline to perform key downstream analyses on raw sequencing data from quality testing to SNPs effect to phylogenetic analysis. 
-For user who would like to align ONTdeCIPHER Csonsensus fasta file `Step9_consensus_fasta/all_fasta.fasta` to custom fasta reference file, we provide a `companion_script.py`.
+For user who would like to align ONTdeCIPHER consensus fasta file `Step9_consensus_fasta/all_fasta.fasta` to a custom fasta reference file, we provide a `companion_script.py`.
  
 ## To use companion_script.py :
 
@@ -15,12 +15,12 @@ conda activate ontdecipher
 2) running the master script
 
 ```sh
-python3 absolute_path_to_script_directory/companion_script.py [-h] --databases user_refrence.fasta --fastaCsonsensus Step9_consensus_fasta/all_fasta.fasta --params config.txt --threads 4 --output user_custom
+python3 absolute_path_to_script_directory/companion_script.py [-h] --databases user_refrence.fasta --fastaConsensus Step9_consensus_fasta/all_fasta.fasta --params config.txt --threads 4 --output user_custom
 ```
 
 `--databases` : a custom refrence fasta file.
 
-`--fastaCsonsensus` : it can be Step9_consensus_fasta/all_fasta.fasta or any fasta consensus file.
+`--fastaConsensus` : it can be Step9_consensus_fasta/all_fasta.fasta or any fasta consensus file.
 
 `--params` : the config.txt file containing the parameters to run the script.
 #### Example:

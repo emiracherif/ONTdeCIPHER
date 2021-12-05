@@ -8,8 +8,8 @@
 # This script is used to run the pipeline steps
 #
 # usage:
-# python3 companion_script.py [-h] --databases DATABASES --fastaCsonsensus
-#                           FASTACSONSENSUS --params PARAMS [--threads THREADS]
+# python3 companion_script.py [-h] --databases DATABASES --fastaConsensus
+#                           FASTACONSENSUS --params PARAMS [--threads THREADS]
 #                           [--output OUTPUT]
 #############################################################################################
 #############################################################################################
@@ -147,7 +147,7 @@ def readConfigFile( paramsf, threads):
 	#print(myParamDict)
 	return(myParamDict)
 
-def runCustomStep(databases, fastaCsonsensus, coref, myParamDict, output):
+def runCustomStep(databases, fastaConsensus, coref, myParamDict, output):
 
 	""" Run the called script. This function need 4 parameters :
 	step : the name of the step to run.
@@ -183,7 +183,7 @@ def runCustomStep(databases, fastaCsonsensus, coref, myParamDict, output):
 	p = os.popen('mafft --add '+databases+' --thread '+str(coref) +' --reorder '+str(myParamDict['scripts_path'])+'/artic-ncov2019_data/primer_schemes/'+str(myParamDict['primers'])+'/'+str(myParamDict['primers'].split('/')[0])+'.reference.fasta >  Step9_consensus_fasta/'+str(output)+'_reference.fasta  2>> Logs/'+str(output)+'_mafft.log')
 	print(p.read())
 
-	p = os.popen('mafft --thread '+str(coref) +' --6merpair '+str(maxambiguous)+' --addfragments '+fastaCsonsensus+' Step9_consensus_fasta/'+str(output)+'_reference.fasta >  Step9_consensus_fasta/'+str(output)+'_all_alignment.fasta 2>> Logs/'+str(output)+'_mafft.log')
+	p = os.popen('mafft --thread '+str(coref) +' --6merpair '+str(maxambiguous)+' --addfragments '+fastaConsensus+' Step9_consensus_fasta/'+str(output)+'_reference.fasta >  Step9_consensus_fasta/'+str(output)+'_all_alignment.fasta 2>> Logs/'+str(output)+'_mafft.log')
 	print(p.read())
 
 	print(Fore.GREEN +"Run raxmlHPC ...")
@@ -216,7 +216,7 @@ def main():
 
 	parser = argparse.ArgumentParser(description='companion_script.py')
 	parser.add_argument('--databases', help='A user databases fasta file.', required=True)
-	parser.add_argument('--fastaCsonsensus', help='Step9_consensus_fasta/all_fasta.fasta or any fasta consensus file.', required=True)
+	parser.add_argument('--fastaConsensus', help='Step9_consensus_fasta/all_fasta.fasta or any fasta consensus file.', required=True)
 	parser.add_argument('--params', help='Config file containing some parameters to run the pipeline.', required=True)
 	parser.add_argument('--threads','-t', type=int , default= 4, help='The number of cores to run the pipeline')
 	parser.add_argument('--output', type=str , default= 'user_custom', help='output name.')
@@ -226,7 +226,7 @@ def main():
 
 	
 	if checkfiles(myParamDict):
-		runCustomStep(args.databases, args.fastaCsonsensus, args.threads, myParamDict,args.output)
+		runCustomStep(args.databases, args.fastaConsensus, args.threads, myParamDict,args.output)
 
 	####################################################
 	
