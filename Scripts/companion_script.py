@@ -219,7 +219,7 @@ def main():
 	parser.add_argument('--fastaCsonsensus', help='Step9_consensus_fasta/all_fasta.fasta or any fasta consensus file.', required=True)
 	parser.add_argument('--params', help='Config file containing some parameters to run the pipeline.', required=True)
 	parser.add_argument('--threads','-t', type=int , default= 4, help='The number of cores to run the pipeline')
-	parser.add_argument('--output', type=str , default= 'user_custom', help='The number of cores to run the pipeline')
+	parser.add_argument('--output', type=str , default= 'user_custom', help='output name.')
 	args = parser.parse_args()
 
 	myParamDict = readConfigFile(args.params,args.threads)
