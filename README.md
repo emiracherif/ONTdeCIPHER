@@ -240,6 +240,11 @@ Andrew Rambaut et al, July 15 2020, A dynamic nomenclature proposal for SARS-CoV
 * Fatou Seck Thiam (BCD/ISEM/IRD), Marine Combe (ISEM/IRD),Georgina Rivera-Ingraham (ISEM/IRD), Fabienne Justy (ISEM/UM), Damien Breugnot (ISEM/IRD), Mohammad Salma (IGMM), Marie-ka Tilak (ISEM), Jean-Claude Doudou (IRD Cayenne), Rodolphe E. Gozlan (ISEM/IRD) and Emira Cherif (ISEM/IRD).
 * **Written by Mohammad Salma, Fatou Seck Thiam and Emira Cherif.**
 
+## How to cite
+
+Emira Cherif, Fatou Seck Thiam, Mohammad Salma, Georgina Rivera-Ingraham, Fabienne Justy, Theo Deremarque, Damien Breugnot, Jean-Claude Doudou, Rodolphe Elie Gozlan, Marine Combe, ONTdeCIPHER: An amplicon-based nanopore sequencing pipeline for tracking pathogen variants, Bioinformatics, 2022;, btac043, https://doi.org/10.1093/bioinformatics/btac043
+
+
 
 ## Contact 
 emira.cherif@ird.fr
