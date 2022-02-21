@@ -165,8 +165,8 @@ def readConfigFile(samplesf, paramsf, threads):
 		subprocess.call(["cp",paramsf,"Step1_usedConfigs/config.txt"])
 		cmd="""echo '\nscripts_path="""+getSnakeDir_path+"""' >> Step1_usedConfigs/config.txt"""
 		subprocess.Popen(cmd,shell=True)
-		cmd="""echo '\nconda_path="""+conda_path+"""' >> Step1_usedConfigs/config.txt"""
-		subprocess.Popen(cmd,shell=True)
+		# cmd="""echo '\nconda_path="""+conda_path+"""' >> Step1_usedConfigs/config.txt"""
+		# subprocess.Popen(cmd,shell=True)
 		cmd="""echo '\ncpu="""+str(threads)+"""' >> Step1_usedConfigs/config.txt"""
 		subprocess.Popen(cmd,shell=True)
 
@@ -182,8 +182,22 @@ def readConfigFile(samplesf, paramsf, threads):
 							columns=line.split("=")
 							if columns[0] not in myParamDict:
 								myParamDict.update({columns[0]:columns[1].strip("\n")})
+						if line.startswith('usher'):
+							myParamDict.update({"usher":"usher"})
 					except:
 						pass
+		if "conda_path" not in myParamDict.keys():
+			print(Fore.YELLOW +"User doesn't provide the path to etc/profile.d/conda.sh, ontdecipher will try to detect it!")
+			cmd="""echo '\nconda_path="""+conda_path+"""' >> Step1_usedConfigs/config.txt"""
+			subprocess.Popen(cmd,shell=True)
+		else: 
+			if os.path.isfile(str(myParamDict["conda_path"])+"/etc/profile.d/conda.sh"):
+				pass
+			else:
+				print(Fore.RED +"ERROR: ",str(myParamDict["conda_path"])+"/etc/profile.d/conda.sh",Fore.RED +": No such file.")
+				sys.exit(1)
+
+
 	#print(myParamDict)
 	return(mySampleDict, myParamDict)
 ####################################################
