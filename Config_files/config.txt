@@ -33,5 +33,5 @@ max-ambig=0.4
 ### Minimum query length allowed for pangolin to attempt assignment. Default: 25000 
 min-length=25000 
 
-###
+####
 #usher
