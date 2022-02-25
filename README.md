@@ -76,12 +76,15 @@ conda activate ontdecipher
 python3 absolute_path_to_script_directory/run_ONTdeCIPHER.py --step pip_core --params config.txt --samples config_samplename.tsv -t 10
 ```
 
-`--step` : can be one of the following values: `pycoQC` , `pip_core` , `m_r_p` . To run all steps you can use : `all` .
+`--step` : can be one of the following values: `pycoQC` , `pip_core` , `mafft_raxm`, `pangolin`, `plots`, `multiqc`. To run (pycoQC --> pip_core --> mafft, raxmlHPC and pangolin) you can use : `all` .
 
 `pycoQC` runs only PycoQC (computes metrics and generates interactive QC plots for Oxford Nanopore technologies sequencing data)
 `pip_core`  runs ONTdeCIPHER core pipeline (artic, seqKit, DeepTools, snpEff)
-`m_r_p` runs mafft, raxmlHPC and Pangolin
-`all` runs `pycoQC` (if sequencing_summary.txt file is provided), `pip_core` & `m_r_p`
+`mafft_raxm` runs mafft and raxmlHPC
+`pangolin` runs pangolin
+`plots` runs plot stats function and plot_tree script
+`multiqc` runs multiqc
+`all` runs `pycoQC` (if sequencing_summary.txt file is provided), `pip_core`, `mafft_raxm` & `pangolin`
 
 
 `--params` : the config.txt file containing the parameters to run the pipeline.
@@ -116,7 +119,7 @@ python3 absolute_path_to_script_directory/run_ONTdeCIPHER.py --step pip_core --p
 	barcode08	p4
 
 `--threads/-t` : Maximum number of threads to use. Default: 4
-
+`--cluster` : The cluster submission command. Ex: sbatch --time=12:00:00 etc. Only SBATCH cluster is supported for now. 
 ### Pipeline output results
 
 After running ONTdeCIPHER steps you will hava in your working directory the following files and folders.

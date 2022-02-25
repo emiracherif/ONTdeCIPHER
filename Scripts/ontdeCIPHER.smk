@@ -41,6 +41,7 @@ with open("Step1_usedConfigs/config.txt","r") as myConfig:
 			except:
 				pass
 
+
 sequencing_summary=""
 if "input_sequence_summary" in myParamDict.keys():
 	sequencing_summary="--sequencing-summary "+str(myParamDict['input_sequence_summary'])

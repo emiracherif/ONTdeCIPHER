@@ -3,7 +3,7 @@
 #############################################################################################
 # run_ONTdeCIPHER.py
 #
-# Copyright (C) 2021 Mohammad Salma, Fatou Seck Thiam & Emira Cherif
+# Copyright (C) 2022 Mohammad Salma, Fatou Seck Thiam & Emira Cherif
 #
 # This script is used to run the pipeline steps
 #
@@ -29,12 +29,11 @@ import colorama
 from colorama import Fore, Back, Style
 import snakemake
 
-
 colorama.init(autoreset=True)
 ###############################################################################
 ############# Some global variables ###########################################
 ## The list of steps
-steps_list=["pycoQC","pip_core","m_r_p","all"]
+steps_list=["pycoQC","pip_core","mafft_raxm","pangolin","plots","multiqc","all"]
 
 ## Config file exemple
 config_file_exemple="""
@@ -52,11 +51,11 @@ def getSnakeDir():
 
 	""" Read the argv and extract the path to this script to use it later to
 	call the 'covid.smk' file.
-    Warning: the feature is expected to have sankemake.smk file in the same
-    directory (i.e. no check
-    is done).
+	Warning: the feature is expected to have sankemake.smk file in the same
+	directory (i.e. no check
+	is done).
 
-    Return the path as a string """
+	Return the path as a string """
 
 	tool_dir="{}".format(sys.argv[0])
 	directorys=tool_dir.split("/")[0:-1]
@@ -86,11 +85,6 @@ def checkfiles(myParamDict,mySampleDict):
 			sys.exit(1)
 
 	return dataOK
-		
-
-
-
-
 
 
 def getCondaPath():
@@ -100,7 +94,7 @@ def getCondaPath():
 	for line in cmd.stdout:
 		line= line.decode(encoding="utf-8", errors="ignore")
 		cmd_data+=line
-	print(cmd_data)
+	#print(cmd_data)
 	return cmd_data.split("/envs/ontdecipher")[0]
 
 def printInfo():
@@ -130,7 +124,7 @@ def readConfigFile(samplesf, paramsf, threads):
 
 	""" Read the config file.
 
-    Return sample name, params """
+	Return sample name, params """
 
 	getSnakeDir_path= '"'+str(getSnakeDir())+'"'
 	conda_path='"'+str(getCondaPath())+'"'
@@ -145,8 +139,7 @@ def readConfigFile(samplesf, paramsf, threads):
 						# Check if the line dont start by '#'
 						if (len(columns)!=2):
 							print("ERROR: The ",samplesf," is not compatible. There are :",str(len(columns)),
-								"Columns but 2 columns are expected"'\n',
-						config_file_exemple)
+								"Columns but 2 columns are expected"'\n',config_file_exemple)
 							sys.exit(1)
 						else:
 							if columns[0] not in mySampleDict:
@@ -159,14 +152,14 @@ def readConfigFile(samplesf, paramsf, threads):
 
 	subprocess.call(["mkdir","-p","Step1_usedConfigs"])
 	subprocess.call(["cp",samplesf,"Step1_usedConfigs/config_samplename.tsv"])
+	
 	if (paramsf):
+
 		myParamDict={}
 		subprocess.call(["mkdir","-p","Step1_usedConfigs"])
 		subprocess.call(["cp",paramsf,"Step1_usedConfigs/config.txt"])
 		cmd="""echo '\nscripts_path="""+getSnakeDir_path+"""' >> Step1_usedConfigs/config.txt"""
 		subprocess.Popen(cmd,shell=True)
-		# cmd="""echo '\nconda_path="""+conda_path+"""' >> Step1_usedConfigs/config.txt"""
-		# subprocess.Popen(cmd,shell=True)
 		cmd="""echo '\ncpu="""+str(threads)+"""' >> Step1_usedConfigs/config.txt"""
 		subprocess.Popen(cmd,shell=True)
 
@@ -178,7 +171,7 @@ def readConfigFile(samplesf, paramsf, threads):
 					try:
 						line=line.replace(" ", "").replace("\"", "").replace("'", "").replace("\t", "").strip("\n")
 						if line!="\n":
-							print(line)
+							#print(line)
 							columns=line.split("=")
 							if columns[0] not in myParamDict:
 								myParamDict.update({columns[0]:columns[1].strip("\n")})
@@ -190,6 +183,7 @@ def readConfigFile(samplesf, paramsf, threads):
 			print(Fore.YELLOW +"User doesn't provide the path to etc/profile.d/conda.sh, ontdecipher will try to detect it!")
 			cmd="""echo '\nconda_path="""+conda_path+"""' >> Step1_usedConfigs/config.txt"""
 			subprocess.Popen(cmd,shell=True)
+			myParamDict.update({"conda_path":str(conda_path.replace("\n", "").replace("\"", "").replace("'", ""))})
 		else: 
 			if os.path.isfile(str(myParamDict["conda_path"])+"/etc/profile.d/conda.sh"):
 				pass
@@ -198,7 +192,9 @@ def readConfigFile(samplesf, paramsf, threads):
 				sys.exit(1)
 
 
-	#print(myParamDict)
+	print(Fore.GREEN +"User parameters:")
+	[print(key,':',value) for key, value in myParamDict.items()]
+	print("\n")
 	return(mySampleDict, myParamDict)
 ####################################################
 def generateStats(mySampleDict,myParamDict,coref):
@@ -290,7 +286,7 @@ def generateStats(mySampleDict,myParamDict,coref):
 
 
 ####################################################
-def runPipeline(stepf,coref, mySampleDict, myParamDict):
+def runPipeline(stepf,coref, mySampleDict, myParamDict,cluster):
 
 	""" Run the called script. This function need 4 parameters :
 	step : the name of the step to run.
@@ -320,20 +316,24 @@ def runPipeline(stepf,coref, mySampleDict, myParamDict):
 		if "input_fast5" in myParamDict.keys():
 			snakeFileTarget="ontdeCIPHER_Q5.smk"
 
-		# p = os.popen('snakemake -s '+pathToSnake+'/'+snakeFileTarget+' --cores '+str(coref) +' --dag | dot -Tpdf > DagFiles/dag_start_'+str(datetime.today().strftime('at_%H-%M-%S_on_%d-%m-%Y'))+'.pdf')
-		# print(p.read())
-
 		cmd='snakemake -s '+pathToSnake+'/'+snakeFileTarget+' --cores '+str(coref) +' --dag | dot -Tpdf > DagFiles/dag_start_'+str(datetime.today().strftime('at_%H-%M-%S_on_%d-%m-%Y'))+'.pdf'
 		subprocess.Popen(cmd, shell=True, executable='/bin/bash')
 
-		p = os.popen('snakemake -s '+pathToSnake+'/'+snakeFileTarget+' --cores '+str(coref))
-		print(p.read())
+		if cluster != "none":
+			##sbatch -n 1 -c 2 -t 72:0:0 -e Logs/slurm.%j.err -o Logs/slurm.%j.out 
+			p = os.popen('snakemake --keep-going --rerun-incomplete -s '+pathToSnake+'/'+snakeFileTarget+' --latency-wait 60 --cluster "'+cluster+'" --jobs '+str(coref)+' --jobname "snakeONTdeCIPHER.{jobid}" ')
+			print(p.read())
+
+		if cluster == "none":
+			p = os.popen('snakemake --keep-going --rerun-incomplete -s '+pathToSnake+'/'+snakeFileTarget+' --cores '+str(coref))
+			print(p.read())
 
 		snakemake_version=str(snakemake.__version__)
 
 		if snakemake_version == '3.13.3':
-			cmd='source '+str(myParamDict['conda_path'])+'/etc/profile.d/conda.sh && conda activate pangolin && snakemake --report report_'+str(datetime.today().strftime('at_%H-%M-%S_on_%d-%m-%Y'))+'.html -s '+pathToSnake+'/'+snakeFileTarget
-			subprocess.Popen(cmd, shell=True, executable='/bin/bash')
+			cmd='source '+str(myParamDict['conda_path'])+'/etc/profile.d/conda.sh && conda activate pangolin && snakemake --report report_'+str(datetime.today().strftime('at_%H-%M-%S_on_%d-%m-%Y'))+'.html -s '+pathToSnake+'/'+snakeFileTarget+' && conda deactivate'
+			process = subprocess.Popen(cmd, shell=True, executable='/bin/bash')
+			process.wait()
 		else:	
 			p = os.popen('snakemake --report report_'+str(datetime.today().strftime('at_%H-%M-%S_on_%d-%m-%Y'))+'.html -s '+pathToSnake+'/'+snakeFileTarget)
 			print(p.read())
@@ -341,19 +341,12 @@ def runPipeline(stepf,coref, mySampleDict, myParamDict):
 		p = os.popen('snakemake -s '+pathToSnake+'/'+snakeFileTarget+' --cores '+str(coref) +' --dag | dot -Tpdf > DagFiles/dag_end_'+str(datetime.today().strftime('at_%H-%M-%S_on_%d-%m-%Y'))+'.pdf')
 		print(p.read())
 
+		
+
 
 	###---------------------
-	# Run mafft, raxmlHPC & pangolin
+	# Run mafft, raxmlHPC 
 	if (stepf==steps_list[2]):
-		## generate plots
-		generateStats(mySampleDict,myParamDict,coref)
-
-
-		if "usher" in myParamDict.keys():
-			usher="--usher "
-		else:
-			usher=""
-
 		if "maxambiguous" in myParamDict.keys():
 			maxambiguous="--maxambiguous "+str(myParamDict['maxambiguous'])+" "
 		else:
@@ -361,9 +354,43 @@ def runPipeline(stepf,coref, mySampleDict, myParamDict):
 
 		if "number_distinct_starting_trees" in myParamDict.keys():
 			number_distinct_starting_trees="-N "+str(myParamDict['number_distinct_starting_trees'])+" "
-			print(number_distinct_starting_trees)
+			#print(number_distinct_starting_trees)
 		else:
 			number_distinct_starting_trees="-N 1000 "
+
+
+		if not os.path.isfile("Step9_consensus_fasta/all_fasta.fasta"): 
+			print(Fore.GREEN +"Generate All fasta consensus file ...")
+			subprocess.call(["mkdir","-p","Step9_consensus_fasta"])
+			subprocess.call(["rm","-f"," Step9_consensus_fasta/all_fasta.fasta"])
+			p = os.popen('cat Step3_artic_medaka_result/*.consensus.fasta > Step9_consensus_fasta/all_fasta.fasta')
+			print(p.read())
+		
+		print(Fore.GREEN +"Run mafft ...")
+		if cluster != "none":
+			sbatch_params="#!/bin/bash"+"\n"+"#SBATCH "+cluster.replace("sbatch ","")+" --ntasks=1 --job-name=mafft_raxmlHPC --cpus-per-task="+str(coref)+"\n"
+			print(Fore.GREEN +"Job submission parameters:")
+			print(sbatch_params)
+			p = os.popen('echo "'+sbatch_params+' mafft --thread '+str(coref) +' --6merpair '+str(maxambiguous)+'--addfragments Step9_consensus_fasta/all_fasta.fasta '+str(myParamDict['scripts_path'])+'/artic-ncov2019_data/primer_schemes/'+str(myParamDict['primers'])+'/'+str(myParamDict['primers'].split('/')[0])+'.reference.fasta >  Step9_consensus_fasta/all_alignment.fasta && raxmlHPC -T '+str(coref) +' -m GTRGAMMA -p 12345 -s Step9_consensus_fasta/all_alignment.fasta -n '+str(myParamDict["name"])+' -f a -x 1000 '+str(number_distinct_starting_trees)+'" | sbatch')
+			print(p.read())
+
+		if cluster == "none":
+			print(Fore.GREEN +"Run mafft ...")
+			p = os.popen('mafft --thread '+str(coref) +' --6merpair '+str(maxambiguous)+'--addfragments Step9_consensus_fasta/all_fasta.fasta '+str(myParamDict['scripts_path'])+'/artic-ncov2019_data/primer_schemes/'+str(myParamDict['primers'])+'/'+str(myParamDict['primers'].split('/')[0])+'.reference.fasta >  Step9_consensus_fasta/all_alignment.fasta')
+			print(p.read())
+
+
+			print(Fore.GREEN +"Run raxmlHPC ...")
+			p = os.popen('raxmlHPC -T '+str(coref) +' -m GTRGAMMA -p 12345 -s Step9_consensus_fasta/all_alignment.fasta -n '+str(myParamDict['name'])+' -f a -x 1000 '+str(number_distinct_starting_trees))
+			print(p.read())
+
+	###---------------------
+	# Run Pangolin 
+	if (stepf==steps_list[3]):
+		if "usher" in myParamDict.keys():
+			usher="--usher "
+		else:
+			usher=""
 
 		if "max-ambig" in myParamDict.keys():
 			max_ambig="--max-ambig "+str(myParamDict['max-ambig'])+" "
@@ -377,50 +404,87 @@ def runPipeline(stepf,coref, mySampleDict, myParamDict):
 			min_length="--min-length 25000 "
 
 
-		print(Fore.GREEN +"Generate All fasta consensus file ...")
-		subprocess.call(["mkdir","-p","Step9_consensus_fasta"])
-		subprocess.call(["rm","-f"," Step9_consensus_fasta/all_fasta.fasta"])
-		p = os.popen('cat Step3_artic_medaka_result/*.consensus.fasta > Step9_consensus_fasta/all_fasta.fasta')
-		print(p.read())
-		print(Fore.GREEN +"Run mafft ...")
-		p = os.popen('mafft --thread '+str(coref) +' --6merpair '+str(maxambiguous)+'--addfragments Step9_consensus_fasta/all_fasta.fasta '+str(myParamDict['scripts_path'])+'/artic-ncov2019_data/primer_schemes/'+str(myParamDict['primers'])+'/'+str(myParamDict['primers'].split('/')[0])+'.reference.fasta >  Step9_consensus_fasta/all_alignment.fasta')
-		print(p.read())
-
-
-		print(Fore.GREEN +"Run raxmlHPC ...")
-		p = os.popen('raxmlHPC -T '+str(coref) +' -m GTRGAMMA -p 12345 -s Step9_consensus_fasta/all_alignment.fasta -n '+str(myParamDict['name'])+' -f a -x 1000 '+str(number_distinct_starting_trees))
-		print(p.read())
-
+		if not os.path.isfile("Step9_consensus_fasta/all_fasta.fasta"): 
+			print(Fore.GREEN +"Generate All fasta consensus file ...")
+			subprocess.call(["mkdir","-p","Step9_consensus_fasta"])
+			subprocess.call(["rm","-f"," Step9_consensus_fasta/all_fasta.fasta"])
+			p = os.popen('cat Step3_artic_medaka_result/*.consensus.fasta > Step9_consensus_fasta/all_fasta.fasta')
+			print(p.read())
+		
 		print(Fore.GREEN +"Run pangolin ...")
-		cmd='source '+str(myParamDict['conda_path'])+'/etc/profile.d/conda.sh && conda activate pangolin && pangolin '+str(max_ambig)+str(min_length)+usher+'Step9_consensus_fasta/all_fasta.fasta --threads '+str(coref)+' && conda deactivate'
-		subprocess.Popen(cmd, shell=True, executable='/bin/bash')
-		#print(p.read())
+		if cluster != "none":
+			sbatch_params="#!/bin/bash"+"\n"+"#SBATCH "+cluster.replace("sbatch ","")+" --ntasks=1 --job-name=pangolin --cpus-per-task="+str(coref)+"\n"
+			print(Fore.GREEN +"Job submission parameters:")
+			print(sbatch_params)
+			cmd='source '+str(myParamDict['conda_path'])+'/etc/profile.d/conda.sh && conda activate pangolin && echo "'+sbatch_params+' pangolin '+str(max_ambig)+str(min_length)+usher+'Step9_consensus_fasta/all_fasta.fasta --threads '+str(coref)+'" | sbatch && conda deactivate'
+			process= subprocess.Popen(cmd, shell=True, executable='/bin/bash')
+			process.wait()
 
-		# ####
+
+		if cluster == "none":
+			cmd='source '+str(myParamDict['conda_path'])+'/etc/profile.d/conda.sh && conda activate pangolin && pangolin '+str(max_ambig)+str(min_length)+usher+'Step9_consensus_fasta/all_fasta.fasta --threads '+str(coref)+' && conda deactivate'
+			process=subprocess.Popen(cmd, shell=True, executable='/bin/bash')
+			process.wait()
+
+	# Plot trees
+	if (stepf==steps_list[4]):
+
+		## generate plots
+		generateStats(mySampleDict,myParamDict,coref)
+		
 		if os.path.isfile("RAxML_bestTree."+str(myParamDict["name"])):
-
 			print(Fore.GREEN +"Plot trees ...")
+			print(str(myParamDict["conda_path"])+"/etc/profile.d/conda.sh")
 			cmd="source "+str(myParamDict["conda_path"])+"/etc/profile.d/conda.sh && conda activate ete3 && python3 "+pathToSnake+"/plot_tree.py --file RAxML_bestTree."+str(myParamDict["name"])+" --output RAxML_bestTree_"+str(myParamDict["name"])+" --format svg && python3 "+pathToSnake+"/plot_tree.py --file RAxML_bipartitions."+str(myParamDict["name"])+" --output RAxML_bipartitions_"+str(myParamDict["name"])+" --format svg && conda deactivate"
-			subprocess.run(cmd, shell=True, executable='/bin/bash')
+			process= subprocess.Popen(cmd, shell=True, executable='/bin/bash')
+			process.wait()
 
 			cmd="source "+str(myParamDict["conda_path"])+"/etc/profile.d/conda.sh && conda activate ete3 && python3 "+pathToSnake+"/plot_tree.py --file RAxML_bestTree."+str(myParamDict["name"])+" --output RAxML_bestTree_"+str(myParamDict["name"])+" --format pdf && python3 "+pathToSnake+"/plot_tree.py --file RAxML_bipartitions."+str(myParamDict["name"])+" --output RAxML_bipartitions_"+str(myParamDict["name"])+" --format pdf && conda deactivate"
-			subprocess.run(cmd, shell=True, executable='/bin/bash')
-
-		####
-		print("Run multiqc")
-		p = os.popen("sleep 20 && multiqc . --dirs-depth 2")
-		print(p.read())
-
-
+			process= subprocess.Popen(cmd, shell=True, executable='/bin/bash')
+			process.wait()
 
 	###---------------------
-	# Run covid.smk file
-	if (stepf==steps_list[3]):
+	# Run multiqc 
+	if (stepf==steps_list[5]):
+		print("Run multiqc")
+		if cluster != "none":
+			sbatch_params="#!/bin/bash"+"\n"+"#SBATCH "+cluster.replace("sbatch ","")+" --ntasks=1 --job-name=multiqc --cpus-per-task="+str(coref)+"\n"
+			print(Fore.GREEN +"Job submission parameters:")
+			print(sbatch_params)
+			cmd='source '+str(myParamDict['conda_path'])+'/etc/profile.d/conda.sh && conda activate ontdecipher && echo "'+sbatch_params+' sleep 20 && multiqc . --dirs-depth 2" | sbatch && conda deactivate'
+			process = subprocess.Popen(cmd, shell=True, executable='/bin/bash')
+			process.wait()
+
+		if cluster == "none":
+			p = os.popen("sleep 20 && multiqc . --dirs-depth 2")
+			print(p.read())
+
+	###---------------------
+	# Run All Steps
+	if (stepf==steps_list[6]):
 		print("Running all the pipeline : pycoQC --> pip_core --> mafft, raxmlHPC and pangolin ;)")
+
 		if "input_sequence_summary" in myParamDict.keys():
-			runPipeline("pycoQC",coref,mySampleDict,myParamDict)
-		runPipeline("pip_core",coref,mySampleDict,myParamDict)
-		runPipeline("m_r_p",coref,mySampleDict,myParamDict)
+			runPipeline("pycoQC",coref,mySampleDict,myParamDict,cluster)
+
+		try:
+			runPipeline("pip_core",coref,mySampleDict,myParamDict,cluster)
+		except:
+			print(Fore.RED +"ERROR: pip_core step stopped, please check log files.")
+			sys.exit(1)
+
+		try:
+			runPipeline("mafft_raxm",coref,mySampleDict,myParamDict,cluster)
+		except:
+			print(Fore.RED +"ERROR: mafft_raxm step stopped, please check log files.")
+			sys.exit(1)    
+
+		try:
+			runPipeline("pangolin",coref,mySampleDict,myParamDict,cluster)
+		except:
+			print(Fore.RED +"ERROR: pangolin step stopped, please check log files.")
+			sys.exit(1) 
+		
 
 
 
@@ -437,19 +501,28 @@ def main():
 	printInfo()
 
 	##############################################################################
-
+	#"pycoQC","pip_core","mafft_raxm","pangolin","plots","multiqc","all"
 	parser = argparse.ArgumentParser(description='run_ONTdeCIPHER.py')
-	parser.add_argument('--step', help='Select step: pycoQC, pip_core, m_r_p or all. pycoQC: runs pycoQC tool. pip_core: runs ontdeCIPHER.smk. m_r_p: runs mafft, raxmlHPC and pangolin', required=True)
+	parser.add_argument('--step', help='Select step: pycoQC, pip_core, mafft_raxm, pangolin, plots, multiqc  or all (pycoQC --> pip_core --> mafft, raxmlHPC and pangolin). pycoQC: runs pycoQC tool. pip_core: runs ontdeCIPHER.smk. mafft_raxm: runs mafft and axmlHPC. pangolin: run pangolin', required=True)
 	parser.add_argument('--params', help='Config file containing some parameters to run the pipeline.', required=True)
 	parser.add_argument('--samples', help='Config file to associate barcodes with sample names.', required=True)
 	parser.add_argument('--threads','-t', type=int , default= 4, help='The number of cores to run the pipeline')
+	parser.add_argument('--cluster', type=str , default= "none", help='The cluster submission command. Ex: sbatch --time=12:00:00 etc')
 	args = parser.parse_args()
+
+	if not os.path.isfile(args.params):
+		print(Fore.RED +"ERROR: ",args.params,Fore.RED +": No such file.")
+		sys.exit(1)
+	if not os.path.isfile(args.samples):
+		print(Fore.RED +"ERROR: ",args.samples,Fore.RED +": No such file.")
+		sys.exit(1)
+
 
 	mySampleDict, myParamDict = readConfigFile(args.samples,args.params,args.threads)
 
 	if args.step in steps_list:
 		if checkfiles(myParamDict, mySampleDict):
-			runPipeline(args.step,args.threads, mySampleDict, myParamDict)
+			runPipeline(args.step,args.threads, mySampleDict, myParamDict, args.cluster)
 
 	else:
 		print("ERROR: ",args.step," is not supported. Please select one these:",steps_list)
@@ -462,9 +535,6 @@ def main():
 	time_elapsed = (time.perf_counter() - time_start)
 	dur=time.strftime('%H hour %M min %S sec', time.gmtime(time_elapsed))
 	print(Fore.BLUE +"Duration: {} ".format(dur))
-
-	# current, peak = tracemalloc.get_traced_memory()
-	# print(Fore.BLUE + f"Current memory usage is {current / 10**6}MB; Peak was {peak / 10**6}MB")
 
 	tracemalloc.stop()
 
