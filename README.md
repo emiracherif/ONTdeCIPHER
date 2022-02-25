@@ -119,7 +119,8 @@ python3 absolute_path_to_script_directory/run_ONTdeCIPHER.py --step pip_core --p
 	barcode08	p4
 
 `--threads/-t` : Maximum number of threads to use. Default: 4
-`--cluster` : The cluster submission command. Ex: sbatch --time=12:00:00 etc. Only SBATCH cluster is supported for now. 
+
+`--cluster` : The cluster submission command. Ex: sbatch --time=12:00:00 etc. Only SBATCH cluster is supported for now. Default: none
 ### Pipeline output results
 
 After running ONTdeCIPHER steps you will hava in your working directory the following files and folders.
