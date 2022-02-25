@@ -78,13 +78,13 @@ python3 absolute_path_to_script_directory/run_ONTdeCIPHER.py --step pip_core --p
 
 `--step` : can be one of the following values: `pycoQC` , `pip_core` , `mafft_raxm`, `pangolin`, `plots`, `multiqc`. To run (pycoQC --> pip_core --> mafft, raxmlHPC and pangolin) you can use : `all` .
 
-`pycoQC` runs only PycoQC (computes metrics and generates interactive QC plots for Oxford Nanopore technologies sequencing data)
-`pip_core`  runs ONTdeCIPHER core pipeline (artic, seqKit, DeepTools, snpEff)
-`mafft_raxm` runs mafft and raxmlHPC
-`pangolin` runs pangolin
-`plots` runs plot stats function and plot_tree script
-`multiqc` runs multiqc
-`all` runs `pycoQC` (if sequencing_summary.txt file is provided), `pip_core`, `mafft_raxm` & `pangolin`
+`pycoQC` runs only PycoQC (computes metrics and generates interactive QC plots for Oxford Nanopore technologies sequencing data).
+`pip_core`  runs ONTdeCIPHER core pipeline (artic, seqKit, DeepTools, snpEff).
+`mafft_raxm` runs mafft and raxmlHPC.
+`pangolin` runs pangolin.
+`plots` runs plot stats function and plot_tree script.
+`multiqc` runs multiqc.
+`all` runs `pycoQC` (if sequencing_summary.txt file is provided), `pip_core`, `mafft_raxm` & `pangolin`.
 
 
 `--params` : the config.txt file containing the parameters to run the pipeline.
