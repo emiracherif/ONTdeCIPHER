@@ -18,6 +18,9 @@ primers="nCoV-2019/V3"
 ### if the path to etc/profile.d/conda.sh is like this : /anaconda3/etc/profile.d/conda.sh, please write only : /anaconda3
 conda_path="/anaconda3"
 
+#### artic minion medaka ##############
+normalise=200
+
 #### mafft config. Default: 0.3
 maxambiguous=0.4 
 
