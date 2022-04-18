@@ -46,6 +46,10 @@ sequencing_summary=""
 if "input_sequence_summary" in myParamDict.keys():
 	sequencing_summary="--sequencing-summary "+str(myParamDict['input_sequence_summary'])
 
+normalise="--normalise 200"	
+if "normalise" in myParamDict.keys():
+	normalise="--normalise "+str(myParamDict['normalise'])
+
 sniffles="sniffles"
 if "sniffles" in myParamDict.keys():
 	sniffles=str(myParamDict['sniffles'])
@@ -112,7 +116,7 @@ rule artic_minion_medaka:
 
 	shell:
 		"cd Step3_artic_medaka_result/ && artic minion --medaka --medaka-model "+str(myParamDict['medaka_model'])+" "
-		"--normalise 200 --threads {threads} --strict --scheme-directory "+str(myParamDict['scripts_path'])+"/artic-ncov2019_data/primer_schemes "+sequencing_summary+
+		+normalise+" --threads {threads} --strict --scheme-directory "+str(myParamDict['scripts_path'])+"/artic-ncov2019_data/primer_schemes "+sequencing_summary+
 		" --read-file ../{input.artic_guppyplex_fastq} "+str(myParamDict['primers'])+" {wildcards.sample} >> {log} 2>&1 "
 
 
